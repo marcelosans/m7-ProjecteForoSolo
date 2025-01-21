@@ -11,6 +11,10 @@
 body
 {
     font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -23,18 +27,18 @@ body
 
 .login-container
 {
-   display: flex;
-   flex-direction: column;
+   
 }
 
 .login-container img
 {
-  width: 70%;
+  width: 100%;
+  margin-bottom: 2em;
 }
 
 .form-group input
 {
-    width: 40%;
+   width: 100%;
     padding: 0.625rem 0.75rem;
     font-size: 1rem;
     line-height: 1.5;
@@ -43,12 +47,14 @@ body
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
 }
 
 
 .btn
 {
-    width: 45%;
+    margin-bottom: 1.25em;
+    width: 100%;
     padding: 0.625rem 0.75rem;
 }
+
