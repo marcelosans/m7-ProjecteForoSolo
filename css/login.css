@@ -1,4 +1,4 @@
-/* *
+*
 {
     margin: 0;
     padding: 0;
@@ -24,8 +24,12 @@ body
 .login-container
 {
    display: flex;
-   align-items: center;
-    justify-content: center;
+   flex-direction: column;
+}
+
+.login-container img
+{
+  width: 70%;
 }
 
 .form-group input
@@ -47,4 +51,4 @@ body
 {
     width: 45%;
     padding: 0.625rem 0.75rem;
-} */
+}
