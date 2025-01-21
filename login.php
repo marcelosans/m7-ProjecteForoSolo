@@ -30,7 +30,7 @@
             <a href="/forgot-password">¿No recuerdas tu contraseña?</a>
         </div>
         <div class="options">
-            <span><a href="/register">Regístrate</a></span>
+            <a href="register.php">Regístrate</a>
         </div>
     </div>
     </body>

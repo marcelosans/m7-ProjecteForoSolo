@@ -1,0 +1,140 @@
+/* Estilo general */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f7f7;
+}
+
+/* Fondo semitransparente */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenedor del formulario */
+.login-container {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: #333;
+}
+
+/* Logo o título */
+.login-container img {
+    width: 100px;
+    margin-bottom: 20px;
+}
+
+.login-container h2 {
+    margin: 0 0 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Input fields */
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Botón */
+.login-container button {
+    background: #58a700;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.login-container button:hover {
+    background: #4d9400;
+}
+
+/* Enlaces */
+.login-container a {
+    color: #58a700;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.login-container a:hover {
+    text-decoration: underline;
+}
+
+/* Separador */
+.separator {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-size: 14px;
+}
+
+.separator::before,
+.separator::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #ddd;
+    margin: 0 10px;
+}
+
+/* Botón social */
+.social-button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #555;
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+.social-button.google {
+    border-color: #dd4b39;
+    color: #dd4b39;
+}
+
+.social-button.google:hover {
+    background: #dd4b39;
+    color: #fff;
+}
+
+.social-button.facebook {
+    border-color: #3b5998;
+    color: #3b5998;
+}
+
+.social-button.facebook:hover {
+    background: #3b5998;
+    color: #fff;
+}
