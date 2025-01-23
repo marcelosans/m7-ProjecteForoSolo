@@ -1,5 +1,3 @@
-<?php
-?>
 <!DOCTYPE html>
 <html lang="ca">
     <head>
@@ -12,10 +10,11 @@
         <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
     </head>
     <body>
+    
     <div class="login-container">
        
         <img src="./img/logo-forosolo.png" alt="logo-foro-solo">
-        <form action="/login" method="POST">
+        <form action="login.php" method="POST">
             <div class="inputform">
             <div class="form-group">
                 <input type="email" id="email" name="email" placeholder="Email/Usuario" required>
@@ -26,6 +25,35 @@
             </div>
             <button type="submit" class="btn">Iniciar Sesión</button>
         </form>
+        <?php
+require_once('conectadb.php');
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $contra = $_POST['password'];
+
+    $sql = 'SELECT * FROM `users` WHERE mail = :email';
+
+    $preparada = $db->prepare($sql);
+    $preparada->bindParam(':email', $email);
+    $preparada->execute();
+
+    if ($preparada->rowCount() == 1) {
+        $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
+        if (password_verify($contra, $usuario['passHash'])) {
+            session_start();
+            $_SESSION['email'] = $usuario['mail'];
+            header('Location: index.php');
+            exit;
+        } else {
+            echo 'La contraseña es incorrecta.';
+        }
+    } else {
+        echo 'El usuario no existe.';
+    }
+}
+?>
+
         <div class="options">
             <a href="/forgot-password">¿No recuerdas tu contraseña?</a>
         </div>
