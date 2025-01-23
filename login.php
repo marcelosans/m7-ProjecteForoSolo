@@ -25,7 +25,8 @@
             </div>
             <button type="submit" class="btn">Iniciar Sesión</button>
         </form>
-        <?php
+        
+<?php
 require_once('conectadb.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
