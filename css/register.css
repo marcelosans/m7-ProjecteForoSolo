@@ -2,10 +2,16 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+<<<<<<< Updated upstream
    /* Fondo gris */
+=======
+    background: url("../Gif/1224149.png") no-repeat   fixed ;
+    background-size: cover;
+>>>>>>> Stashed changes
     font-family: "Pixelify Sans", serif;
     font-optical-sizing: auto;
 }
+
 
 body {
     font-family: 'Roboto', sans-serif;

@@ -47,24 +47,36 @@
             <?php
                 require_once('conectadb.php');
 
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                if ($_SERVER["REQUEST_METHOD"] == "POST") 
+                {
                     $username = $_POST['username'];
                     $email = $_POST['email'];
                     $password = $_POST['password'];
+                    $verifyPassword = $_POST['verify_password'];
                     $firstName = $_POST['first_name'];
                     $lastName = $_POST['last_name'];
                     $creationDate = date("Y-m-d H:i:s");
                     
-                    $passHash = password_hash($password, PASSWORD_DEFAULT);
-                    
-                    try {
-                        $stmt = $db->prepare("INSERT INTO Users (mail, username, passHash, userFirstName, userLastName, creationDate, activeU) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                        $activeU = 1; 
-                        $stmt->execute([$email, $username, $passHash, $firstName, $lastName, $creationDate, $activeU]);
+                    if ($password !== $verifyPassword) 
+                    {
+                        echo "Las contrasenyas no coinciden.";
+                    } 
+                    else 
+                    {
+                        $passHash = password_hash($password, PASSWORD_DEFAULT);
+
+                        try 
+                        {
+                            $stmt = $db->prepare("INSERT INTO Users (mail, username, passHash, userFirstName, userLastName, creationDate, activeU) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                            $activeU = 1; 
+                            $stmt->execute([$email, $username, $passHash, $firstName, $lastName, $creationDate, $activeU]);
                         
-                        echo "Registro exitoso.";
-                    } catch (PDOException $e) {
+                            echo "Registro exitoso.";
+                        } 
+                        catch (PDOException $e) 
+                        {
                         echo "El usuario ya esta creado.";
+                        }
                     }
                 }
             ?>
