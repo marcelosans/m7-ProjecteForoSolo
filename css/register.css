@@ -2,30 +2,26 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
    /* Fondo gris */
-=======
-    background: url("../Gif/1224149.png") no-repeat   fixed ;
     background-size: cover;
->>>>>>> Stashed changes
-=======
-    background: url("../Gif/1224149.png") no-repeat   fixed ;
-    background-size: cover;
->>>>>>> Stashed changes
     font-family: "Pixelify Sans", serif;
     font-optical-sizing: auto;
 }
 
 
-body {
+body
+{  
+    background-image: url('https://i.pinimg.com/originals/1b/83/dc/1b83dce6c2a59c92d2dfdd14df85c377.gif');
+    background-size: cover; /* Asegura que la imagen cubra todo el fondo */
+    background-repeat: repeat; /* Evita que la imagen se repita *//* Centra la imagen */
     font-family: 'Roboto', sans-serif;
-    height: 100vh;
+    height: 120vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0;
 }
+
+
 
 .login-container {
     width: 100%;

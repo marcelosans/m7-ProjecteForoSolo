@@ -1,0 +1,65 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Pixelify Sans", serif;
+    font-optical-sizing: auto;
+}
+
+body
+{  
+    background-image: url('https://i.redd.it/lw2ohrht0xsc1.gif');
+    background-size: cover; /* Asegura que la imagen cubra todo el fondo */
+    background-repeat: repeat; /* Evita que la imagen se repita *//* Centra la imagen */
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.form-group
+{
+    margin-bottom: 1.25rem;
+}
+
+
+.login-container img
+{
+  width: 100%;
+  margin-bottom: 2em;
+}
+
+.login-container
+{
+    background-color: #949492;
+    padding: 5em;
+    border-radius: 15px;
+}
+
+
+
+.form-group input
+{
+   width: 100%;
+    padding: 0.625rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+
+}
+
+
+.btn
+{
+    margin-bottom: 1.25em;
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+}
+
