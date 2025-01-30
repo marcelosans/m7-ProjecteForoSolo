@@ -3,7 +3,12 @@
     padding: 0;
     box-sizing: border-box;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
    /* Fondo gris */
+=======
+    background: url("../Gif/1224149.png") no-repeat   fixed ;
+    background-size: cover;
+>>>>>>> Stashed changes
 =======
     background: url("../Gif/1224149.png") no-repeat   fixed ;
     background-size: cover;
