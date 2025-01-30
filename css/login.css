@@ -3,13 +3,15 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #949492;
     font-family: "Pixelify Sans", serif;
     font-optical-sizing: auto;
 }
 
 body
-{
+{  
+    background-image: url('https://i.pinimg.com/originals/1b/83/dc/1b83dce6c2a59c92d2dfdd14df85c377.gif');
+    background-size: cover; /* Asegura que la imagen cubra todo el fondo */
+    background-repeat: repeat; /* Evita que la imagen se repita *//* Centra la imagen */
     font-family: 'Roboto', sans-serif;
     height: 100vh;
     display: flex;
@@ -29,6 +31,15 @@ body
   width: 100%;
   margin-bottom: 2em;
 }
+
+.login-container
+{
+    background-color: #949492;
+    padding: 5em;
+    border-radius: 15px;
+}
+
+
 
 .form-group input
 {

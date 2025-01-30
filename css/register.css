@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #949492; /* Fondo gris */
+   /* Fondo gris */
     font-family: "Pixelify Sans", serif;
     font-optical-sizing: auto;
 }
@@ -19,8 +19,15 @@ body {
 .login-container {
     width: 100%;
     max-width: 500px; /* Aumentar el ancho máximo de la caja */
-    padding: 2.5rem; /* Aumentar el padding para más espacio interno */
+    /* Aumentar el padding para más espacio interno */
     
+}
+
+.login-container
+{
+    background-color: #949492;
+    padding: 2.5em;
+    border-radius: 15px;
 }
 
 .login-container img {
