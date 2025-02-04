@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
         <div class="options">
-            <a href="/forgot-password">¿No recuerdas tu contraseña?</a>
+            <a href="forgotPass.php">¿No recuerdas tu contraseña?</a>
         </div>
         <div class="options">
             <a href="register.php">Regístrate</a>
