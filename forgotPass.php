@@ -1,38 +1,72 @@
 <?php
-?>
+require 'conectadb.php';
+require 'vendor/autoload.php'; // PHPMailer
 
-<!DOCTYPE html>
-<html lang="ca">
-    <head>
-        <meta charset="utf-8">
-        <title>ForoSolo</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="./css/login.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-    </head>
-    <body>
-    
-    <div class="login-container">
-       
-        <img src="./img/logo-forosolo.png" alt="logo-foro-solo">
-        <form action="login.php" method="POST">
-            <h1>¿Te has olvidado la contraseña?</h1>
-            <br>
-            <div class="inputform">
-            <div class="form-group">
-                <input type="email" id="email" name="email" placeholder="Email/Usuario" required>
-            </div>
-            </div>
-            <button type="submit" class="btn">Restablecer Contraseña</button>
-        </form>
-        <div class="options">
-            <a href="login.php">¿Tienes cuenta?</a>
-        </div>
-        <div class="options">
-            <a href="register.php">Regístrate</a>
-        </div>
-    </div>
-    </body>
-</html>
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = trim($_POST['email']);
+
+    // Comprova si l'email existeix
+    $stmt = $pdo->prepare("SELECT iduser FROM users WHERE mail = ?");
+    $stmt->execute([$email]);
+    $user = $stmt->fetch();
+
+    if ($user) {
+        // Genera un codi d'activació SHA-256
+        $activationCode = hash('sha256', random_bytes(32));
+
+        // Guarda el codi a la base de dades
+        $stmt = $pdo->prepare("UPDATE users SET activationCode = ? WHERE iduser = ?");
+        $stmt->execute([$activationCode, $user['iduser']]);
+
+        // Configura PHPMailer
+        $mail = new PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.tu-dominio.com'; // Configura el servidor SMTP
+            $mail->SMTPAuth = true;
+            $mail->Username = 'tu-correo@tu-dominio.com';
+            $mail->Password = 'tu-contraseña';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            $mail->setFrom('no-reply@tu-dominio.com', 'ForoSolo');
+            $mail->addAddress($email);
+
+            $mail->isHTML(true);
+            $mail->Subject = "Benvingut a ForoSolo - Activa el teu compte";
+            
+            $activationLink = "https://tu-dominio.com/mailCheckAccount.php?code=$activationCode&mail=$email";
+
+            // Contingut HTML del correu
+            $mail->Body = "
+                <html>
+                <head>
+                    <style>
+                        body { font-family: Arial, sans-serif; text-align: center; }
+                        .container { width: 80%; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; }
+                        .btn { background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; }
+                    </style>
+                </head>
+                <body>
+                    <div class='container'>
+                        <img src='https://tu-dominio.com/img/logo-forosolo.png' width='150' alt='ForoSolo Logo'>
+                        <h2>Benvingut a ForoSolo!</h2>
+                        <p>Per activar el teu compte, fes clic al següent botó:</p>
+                        <a class='btn' href='$activationLink'>Activa el teu compte ara!</a>
+                    </div>
+                </body>
+                </html>";
+
+            $mail->send();
+            echo "S'ha enviat un correu electrònic amb l'enllaç d'activació.";
+        } catch (Exception $e) {
+            echo "Error en enviar el correu: {$mail->ErrorInfo}";
+        }
+    } else {
+        echo "Aquest email no està registrat.";
+    }
+}
+?>
