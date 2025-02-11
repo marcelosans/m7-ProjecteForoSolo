@@ -105,3 +105,17 @@ h2 {
 .options a:hover {
     text-decoration: underline;
 }
+
+.message {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.error-message {
+    color: red;
+}
+
+.success-message {
+    color: green;
+}

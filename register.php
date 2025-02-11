@@ -1,3 +1,46 @@
+<?php
+    require_once('conectadb.php');
+    $message = "";
+    $messageClass = "";
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") 
+    {
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $verifyPassword = $_POST['verify_password'];
+        $firstName = $_POST['first_name'];
+        $lastName = $_POST['last_name'];
+        $creationDate = date("Y-m-d H:i:s");
+
+        if ($password !== $verifyPassword) 
+        {
+            $message = "Les contrasenyes no coincideixen.";
+            $messageClass = "error-message";
+        } 
+        else 
+        {
+            $passHash = password_hash($password, PASSWORD_DEFAULT);
+
+            try 
+            {
+                $stmt = $db->prepare("INSERT INTO Users (mail, username, passHash, userFirstName, userLastName, creationDate, activeU) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                $activeU = 1; 
+                $stmt->execute([$email, $username, $passHash, $firstName, $lastName, $creationDate, $activeU]);
+            
+                $message = "Registre completat amb èxit.";
+                $messageClass = "success-message";
+            } 
+            catch (PDOException $e) 
+            {
+                $message = "El nom d'usuari ja està registrat.";
+                $messageClass = "error-message";
+            }
+        }
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -8,6 +51,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <style>
+        .message {
+            text-align: center;
+            color: red;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+    </style>
 </head>
 <body>
     <div class="login-container">
@@ -44,44 +95,14 @@
                     </div>
                 </div>
             </div>
-            <?php
-                require_once('conectadb.php');
 
-                if ($_SERVER["REQUEST_METHOD"] == "POST") 
-                {
-                    $username = $_POST['username'];
-                    $email = $_POST['email'];
-                    $password = $_POST['password'];
-                    $verifyPassword = $_POST['verify_password'];
-                    $firstName = $_POST['first_name'];
-                    $lastName = $_POST['last_name'];
-                    $creationDate = date("Y-m-d H:i:s");
-                    
-                    if ($password !== $verifyPassword) 
-                    {
-                        echo "Las contrasenyas no coinciden.";
-                    } 
-                    else 
-                    {
-                        $passHash = password_hash($password, PASSWORD_DEFAULT);
-
-                        try 
-                        {
-                            $stmt = $db->prepare("INSERT INTO Users (mail, username, passHash, userFirstName, userLastName, creationDate, activeU) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                            $activeU = 1; 
-                            $stmt->execute([$email, $username, $passHash, $firstName, $lastName, $creationDate, $activeU]);
-                        
-                            echo "Registro exitoso.";
-                        } 
-                        catch (PDOException $e) 
-                        {
-                        echo "El usuario ya esta creado.";
-                        }
-                    }
-                }
-            ?>
             <button type="submit" class="btn">Registrar-se</button>
         </form>
+
+        <?php if (!empty($message)): ?>
+            <div class="message <?php echo $messageClass; ?>"><?php echo $message; ?></div>
+        <?php endif; ?>
+
         <div class="options">
             <p>Ja tens compte? <a href="login.php">Inicia sessió</a></p>
         </div>
