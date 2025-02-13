@@ -9,38 +9,29 @@ $message = "";
 $messageClass = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener el correo y la contraseña desde el formulario
     $email = $_POST['email'];
-    // $password = $_POST['password']; // Asegúrate de que este campo esté en tu formulario
 
-    // Validar email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $message = "Format d'email invàlid.";
         $messageClass = "error-message";
     } else {
         try {
-            // Verifica si el email existe
             $stmt = $db->prepare("SELECT iduser FROM users WHERE mail = ?");
             $stmt->execute([$email]);
             $user = $stmt->fetch();
 
             if ($user) {
-                // Genera un token seguro para restablecer la contraseña
                 $resetPassCode = bin2hex(random_bytes(32));
-                $resetPassExpiry = date("Y-m-d H:i:s", strtotime('+1 hour')); // Token válido por 1 hora
+                $resetPassExpiry = date("Y-m-d H:i:s", strtotime('+1 hour')); 
 
-                // Guarda el token en la base de datos
                 $stmt = $db->prepare("UPDATE users SET resetPassCode = ?, resetPassExpiry = ? WHERE iduser = ?");
                 $stmt->execute([$resetPassCode, $resetPassExpiry, $user['iduser']]);
 
-                // Configura PHPMailer
                 $mail = new PHPMailer(true);
                 $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com'; // Servidor SMTP de Gmail
+                $mail->Host = 'smtp.gmail.com'; 
                 $mail->SMTPAuth = true;
-                // $mail->Username = $email; // Usa el correo del formulario
                 $mail->Username = 'alex.correat@educem.net';
-                // $mail->Password = $password; // Usa la contraseña del formulario
                 $mail->Password = 'qvxe jflw jfgv eqrt';
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
@@ -51,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $mail->isHTML(true);
                 $mail->Subject = "Restabliment de contrasenya - ForoSolo";
 
-                $resetLink = "http://localhost/m7-ProjecteForoSolo/newPass.php";
+                $resetLink = "http://localhost/m7-ProjecteForoSolo/newPass.php?code=$resetPassCode";
 
                 // Contenido HTML del correo
                 $mail->Body = "
@@ -65,7 +56,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </head>
                     <body>
                         <div class='container'>
-                            <img src='https://localhost/img/logo-forosolo.png' width='150' alt='ForoSolo Logo'>
                             <h2>Restabliment de contrasenya</h2>
                             <p>Per restablir la teva contrasenya, fes clic al següent botó:</p>
                             <a class='btn' href='$resetLink'>Restablir contrasenya</a>
@@ -104,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-    <!-- <style>
+    <style>
         .message {
             text-align: center;
             font-weight: bold;
@@ -116,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .success-message {
             color: green;
         }
-    </style> -->
+    </style> 
 </head>
 <body>
     <div class="login-container">
