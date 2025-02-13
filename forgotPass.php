@@ -11,7 +11,7 @@ $messageClass = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener el correo y la contraseña desde el formulario
     $email = $_POST['email'];
-    $password = $_POST['password']; // Asegúrate de que este campo esté en tu formulario
+    // $password = $_POST['password']; // Asegúrate de que este campo esté en tu formulario
 
     // Validar email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -38,8 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com'; // Servidor SMTP de Gmail
                 $mail->SMTPAuth = true;
-                $mail->Username = $email; // Usa el correo del formulario
-                $mail->Password = $password; // Usa la contraseña del formulario
+                // $mail->Username = $email; // Usa el correo del formulario
+                $mail->Username = 'alex.correat@educem.net';
+                // $mail->Password = $password; // Usa la contraseña del formulario
+                $mail->Password = 'qvxe jflw jfgv eqrt';
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
 
@@ -49,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $mail->isHTML(true);
                 $mail->Subject = "Restabliment de contrasenya - ForoSolo";
 
-                $resetLink = "http://localhost/m7-ProjecteForoSolo/reset_password.php?token=$resetPassCode&mail=" . urlencode($email);
+                $resetLink = "http://localhost/m7-ProjecteForoSolo/newPass.php";
 
                 // Contenido HTML del correo
                 $mail->Body = "
@@ -63,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </head>
                     <body>
                         <div class='container'>
-                            <img src='https://tu-dominio.com/img/logo-forosolo.png' width='150' alt='ForoSolo Logo'>
+                            <img src='https://localhost/img/logo-forosolo.png' width='150' alt='ForoSolo Logo'>
                             <h2>Restabliment de contrasenya</h2>
                             <p>Per restablir la teva contrasenya, fes clic al següent botó:</p>
                             <a class='btn' href='$resetLink'>Restablir contrasenya</a>
@@ -102,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-    <style>
+    <!-- <style>
         .message {
             text-align: center;
             font-weight: bold;
@@ -114,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .success-message {
             color: green;
         }
-    </style>
+    </style> -->
 </head>
 <body>
     <div class="login-container">
@@ -126,10 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="email">Correu electrònic <span style="color: red;">*</span></label>
                     <input type="email" id="email" name="email" placeholder="Email" required>
                 </div>
-                <div class="form-group">
-                    <label for="password">Contrasenya <span style="color: red;">*</span></label>
-                    <input type="password" id="password" name="password" placeholder="Contrasenya" required>
-                </div>
+                
             </div>
 
             <button type="submit" class="btn">Enviar enllaç de recuperació</button>
