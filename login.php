@@ -36,7 +36,7 @@ $messageClass = ""; // Variable para almacenar la clase del mensaje
     <form action="login.php" method="POST">
         <div class="inputform">
             <div class="form-group">
-                <input type="email" id="email" name="email" placeholder="Email/Usuario" required>
+                <input type="text" id="email" name="email" placeholder="Email/Usuario" required>
             </div>
             <div class="form-group">
                 <input type="password" id="password" name="password" placeholder="Contraseña" required>
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $contra = $_POST['password'];
 
-    $sql = 'SELECT * FROM `users` WHERE mail = :email AND activeU = 1';
+    $sql = 'SELECT * FROM `users` WHERE (mail = :email OR username = :email) AND activeU = 1';
 
     $preparada = $db->prepare($sql);
     $preparada->bindParam(':email', $email);
