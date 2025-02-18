@@ -60,8 +60,7 @@ $messageClass = "";
                     </head>
                     <body>
                         <div class='container'>
-                            <img src='https://tu-dominio.com/img/logo-forosolo.png' width='150' alt='ForoSolo Logo'>
-                            <h2>Verificacio email/h2>
+                            <h2>Verificacio email</h2>
                             <p>Per verificar el email seguent, fes clic al següent botó:</p>
                             <a class='btn' href='$activateLink'>Verificar</a>
                             <p>Si el botó no funciona, copia i enganxa aquest enllaç al teu navegador:</p>
