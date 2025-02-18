@@ -1,6 +1,6 @@
 <?php
-require 'conectadb.php'; // Conexión a la base de datos
-require 'vendor/autoload.php'; // PHPMailer
+require 'conectadb.php'; 
+require 'vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -90,23 +90,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="utf-8">
     <title>Recuperar contrasenya - ForoSolo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./css/register.css">
+    <link rel="stylesheet" href="./css/newPass.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-    <style>
-        .message {
-            text-align: center;
-            font-weight: bold;
-            margin-top: 1rem;
-        }
-        .error-message {
-            color: red;
-        }
-        .success-message {
-            color: green;
-        }
-    </style> 
 </head>
 <body>
     <div class="login-container">
@@ -118,7 +105,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="email">Correu electrònic <span style="color: red;">*</span></label>
                     <input type="email" id="email" name="email" placeholder="Email" required>
                 </div>
-                
             </div>
 
             <button type="submit" class="btn">Enviar enllaç de recuperació</button>

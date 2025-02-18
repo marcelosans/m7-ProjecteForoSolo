@@ -1,40 +1,33 @@
 <?php
-require 'conectadb.php'; // Conexión a la base de datos
+require 'conectadb.php'; 
 
 $message = "";
 $messageClass = "";
 
-// Verificar si se ha proporcionado el código de restablecimiento
 if (isset($_GET['code'])) {
     $resetPassCode = $_GET['code'];
 
-    // Verificar si el código de restablecimiento es válido
     try {
         $stmt = $db->prepare("SELECT iduser, resetPassExpiry FROM users WHERE resetPassCode = ?");
         $stmt->execute([$resetPassCode]);
         $user = $stmt->fetch();
 
-        // Verificar si el usuario existe y si el código no ha expirado
         if ($user) {
             $currentDateTime = date("Y-m-d H:i:s");
             if ($currentDateTime > $user['resetPassExpiry']) {
                 $message = "El codi de restabliment ha expirat.";
                 $messageClass = "error-message";
             } else {
-                // Procesar el formulario al enviar
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $newPassword = $_POST['new_password'];
                     $confirmPassword = $_POST['confirm_password'];
 
-                    // Validar que las contraseñas coincidan
                     if ($newPassword !== $confirmPassword) {
-                        $message = "Les contrasenyes no coincideixen.";
+                        $message = "Les contrasenyes no coincideixen, torna a enviar la petició.";
                         $messageClass = "error-message";
                     } else {
-                        // Hashear la nueva contraseña
                         $passHash = password_hash($newPassword, PASSWORD_DEFAULT);
 
-                        // Actualizar la contraseña en la base de datos
                         $stmt = $db->prepare("UPDATE users SET passHash = ?, resetPassCode = NULL, resetPassExpiry = NULL WHERE iduser = ?");
                         $stmt->execute([$passHash, $user['iduser']]);
 
@@ -62,27 +55,14 @@ if (isset($_GET['code'])) {
 <head>
     <meta charset="utf-8">
     <title>Restablir contrasenya - ForoSolo</title>
-    <link rel="stylesheet" href="./css/register.css">
-    <style>
-        .message {
-            text-align: center;
-            font-weight: bold;
-            margin-top: 1rem;
-        }
-        .error-message {
-            color: red;
-        }
-        .success-message {
-            color: green;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/newPass.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="login-container">
-        <img src="./img/logo-forosolo.png" alt="logo-foro-solo">
-        
-        <h2>Restablir contrasenya</h2>
-        
+        <img src="./img/logo-forosolo.png" alt="logo-foro-solo">        
         <?php if (!empty($message)): ?>
             <div class="message <?php echo $messageClass; ?>"><?php echo $message; ?></div>
         <?php endif; ?>
