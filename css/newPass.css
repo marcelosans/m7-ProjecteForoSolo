@@ -9,7 +9,7 @@
 
 body {
     background-image: url('https://i.pinimg.com/originals/1b/83/dc/1b83dce6c2a59c92d2dfdd14df85c377.gif');
-    background-size: cover;
+    background-size: cover; 
     background-repeat: repeat;
     font-family: 'Roboto', sans-serif;
     height: 120vh;
@@ -20,9 +20,9 @@ body {
 
 .login-container {
     width: 100%;
-    max-width: 500px;
-    background-color: #949492;
-    padding: 2.5em;
+    max-width: 500px; 
+    background-color: #949492; 
+    padding: 2.5em; 
     border-radius: 15px;
 }
 
@@ -86,7 +86,7 @@ h2 {
 
 .error-message {
     color: red;
-    margin-bottom: 1rem; /* Añadir separación debajo del mensaje de error */
+    margin-bottom: 1rem;
 }
 
 .success-message {
