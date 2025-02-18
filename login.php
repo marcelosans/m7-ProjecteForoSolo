@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $contra = $_POST['password'];
 
-    $sql = 'SELECT * FROM `users` WHERE mail = :email';
+    $sql = 'SELECT * FROM `users` WHERE mail = :email AND activeU = 1';
 
     $preparada = $db->prepare($sql);
     $preparada->bindParam(':email', $email);

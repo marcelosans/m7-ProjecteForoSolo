@@ -25,11 +25,13 @@
             try 
             {
                 $stmt = $db->prepare("INSERT INTO Users (mail, username, passHash, userFirstName, userLastName, creationDate, activeU) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                $activeU = 1; 
+                $activeU = 0; 
                 $stmt->execute([$email, $username, $passHash, $firstName, $lastName, $creationDate, $activeU]);
             
                 $message = "Registre completat amb èxit.";
                 $messageClass = "success-message";
+
+                header("Location: verifEmail.php?email=$email");
             } 
             catch (PDOException $e) 
             {
