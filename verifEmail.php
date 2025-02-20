@@ -49,25 +49,42 @@ $messageClass = "";
                 $activateLink = "http://localhost/m7-ProjecteForoSolo/verifExito.php?code=$activationCode&mail=" . urlencode($email);
 
                 // Contenido HTML del correo
-                $mail->Body = "
-                    <html>
-                    <head>
-                        <style>
-                            body { font-family: Arial, sans-serif; text-align: center; }
-                            .container { width: 80%; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; }
-                            .btn { background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; }
-                        </style>
-                    </head>
-                    <body>
-                        <div class='container'>
-                            <h2>Verificacio email</h2>
-                            <p>Per verificar el email seguent, fes clic al següent botó:</p>
-                            <a class='btn' href='$activateLink'>Verificar</a>
-                            <p>Si el botó no funciona, copia i enganxa aquest enllaç al teu navegador:</p>
-                            <p><a href='$activateLink'>$activateLink</a></p>
-                        </div>
-                    </body>
-                    </html>";
+                $mail->Body = '<html>
+                <head>
+                    <link rel="preconnect" href="https://fonts.googleapis.com">
+                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+                    <style>
+                        * { text-align: center; font-optical-sizing: auto; }
+                        body { font-family: "Pixelify Sans", serif; }
+                        .container { width: 80%; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #949493; }
+                        .logo { max-width: 200px; margin-bottom: 20px; }
+                        .btn { 
+                            padding: 0.625rem 0.75rem;
+                            font-size: 1rem;
+                            line-height: 1.5;
+                            color: #495057;
+                            background-color: #fff;
+                            border: 1px solid #ced4da;
+                            border-radius: 0.25rem;
+                            text-decoration: none; 
+                            display: inline-block; 
+                        }
+                        p { color: black; }
+                        h2 { color: black; }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <img src="https://drive.google.com/uc?id=1d2_XF9OzFIN_0tTx6hs5gwL8QcD4ieDR" alt="Logo" class="logo">
+                        <h2>Verificació email</h2>
+                        <p>Per verificar el email següent, fes clic al següent botó:</p>
+                        <a class="btn" href="$activateLink">Verificar</a>
+                        <p>Si el botó no funciona, copia i enganxa aquest enllaç al teu navegador:</p>
+                        <p><a href="$activateLink">$activateLink</a></p>
+                    </div>
+                </body>
+                </html>';
 
                 if ($mail->send()) {
                     $message = "S'ha enviat un correu electrònic amb l'enllaç per restablir la contrasenya.";
