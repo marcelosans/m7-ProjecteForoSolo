@@ -45,17 +45,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $resetLink = "http://localhost/m7-ProjecteForoSolo/newPass.php?code=$resetPassCode";
 
                 // Contenido HTML del correo
-                $mail->Body = "
-                    <html>
+                $mail->Body = '<span style="font-family: "Pixelify Sans", serif">'."<html>
                     <head>
+                    <link rel='preconnect' href='https://fonts.googleapis.com'>
+                    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+                    <link href='https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap' rel='stylesheet'>
                         <style>
-                            body { font-family: Arial, sans-serif; text-align: center; }
-                            .container { width: 80%; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; }
-                            .btn { background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; }
+                            * {text-align: center; font-optical-sizing: auto;}
+                            .container { width: 80%; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #949493; }
+                            .logo { max-width: 200px; margin-bottom: 20px; }
+                            .btn { 
+                                padding: 0.625rem 0.75rem; /* Usar el mismo padding que los inputs */
+                                font-size: 1rem; /* Usar el mismo tamaño de fuente que los inputs */
+                                line-height: 1.5; /* Usar el mismo line-height que los inputs */
+                                color: #495057;
+                                background-color: #fff;
+                                border: 1px solid #ced4da;
+                                border-radius: 0.25rem; /* Bordes redondeados */
+                                text-decoration: none; 
+                                display: inline-block; 
+                            }
+                            p { color: black; }
+                            h2 { color: black; }
                         </style>
                     </head>
                     <body>
                         <div class='container'>
+                            <img src='https://drive.google.com/uc?id=1d2_XF9OzFIN_0tTx6hs5gwL8QcD4ieDR' alt='Logo' class='logo'>
                             <h2>Restabliment de contrasenya</h2>
                             <p>Per restablir la teva contrasenya, fes clic al següent botó:</p>
                             <a class='btn' href='$resetLink'>Restablir contrasenya</a>
@@ -63,7 +79,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <p><a href='$resetLink'>$resetLink</a></p>
                         </div>
                     </body>
-                    </html>";
+                </html>";'</span>';
+                
 
                 if ($mail->send()) {
                     $message = "S'ha enviat un correu electrònic amb l'enllaç per restablir la contrasenya.";
