@@ -53,14 +53,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-    <style>
-        .message {
-            text-align: center;
-            color: red;
-            font-weight: bold;
-            margin-top: 1rem;
-        }
-    </style>
 </head>
 <body>
     <div class="login-container">
@@ -110,4 +102,35 @@
         </div>
     </div>
 </body>
+<script>
+    const passwordField = document.getElementById('password');
+    const verifyPasswordField = document.getElementById('verify_password');
+
+    // Función para verificar si las contraseñas coinciden
+    function checkPasswordsMatch() {
+        const password = passwordField.value;
+        const verifyPassword = verifyPasswordField.value;
+
+        // Limpiamos las clases de los bordes antes de aplicar nuevas
+        passwordField.classList.remove('error-border', 'success-border');
+        verifyPasswordField.classList.remove('error-border', 'success-border');
+
+        if (verifyPassword === '') {
+            // Si el campo de confirmación está vacío, no hacemos nada
+            passwordField.classList.remove('error-border', 'success-border');
+            verifyPasswordField.classList.remove('error-border', 'success-border');
+        } else if (password !== verifyPassword) {
+            // Si las contraseñas no coinciden, añadimos la clase de error
+            passwordField.classList.add('error-border');
+            verifyPasswordField.classList.add('error-border');
+        } else {
+            // Si coinciden, añadimos la clase de éxito
+            passwordField.classList.add('success-border');
+            verifyPasswordField.classList.add('success-border');
+        }
+    }
+
+    passwordField.addEventListener('input', checkPasswordsMatch);
+    verifyPasswordField.addEventListener('input', checkPasswordsMatch);
+</script>
 </html>

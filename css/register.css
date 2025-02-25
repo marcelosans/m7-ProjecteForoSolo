@@ -101,6 +101,7 @@ h2 {
 
 .message {
     text-align: center;
+    color: red;
     font-weight: bold;
     margin-top: 1rem;
 }
@@ -111,4 +112,12 @@ h2 {
 
 .success-message {
     color: green;
+}
+
+input.error-border {
+    border: 2px solid red !important;
+}
+
+input.success-border {
+    border: 2px solid green !important;
 }
