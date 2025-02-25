@@ -48,7 +48,6 @@ $messageClass = "";
 
                 $activateLink = "http://localhost/m7-ProjecteForoSolo/verifExito.php?code=$activationCode&mail=" . urlencode($email);
 
-                // Contenido HTML del correo
                 $mail->Body = "<html>
                                 <head>
                                     <link rel='preconnect' href='https://fonts.googleapis.com'>
