@@ -1,0 +1,188 @@
+/* General */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Pixelify Sans", serif;
+}
+
+body {
+    background: #f8f9fa;
+}
+
+/* Navbar */
+.navbar {
+    background: #949493;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo img {
+    height: 40px;
+}
+
+/* Menú Desktop */
+.nav-links {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: black;
+    margin: 0 15px;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #007bff;
+}
+
+/* Perfil */
+.profile {
+    position: relative;
+    cursor: pointer;
+}
+
+.profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Dropdown */
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #949493;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 150px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.profile:hover .dropdown {
+    display: block;
+}
+
+.dropdown li {
+    list-style: none;
+}
+
+.dropdown a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    transition: background 0.3s;
+}
+
+.dropdown a:hover {
+    background: #f1f1f1;
+}
+
+/* Menú Hamburguesa */
+.menu-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Menú Móvil */
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #949493;
+    z-index: 200;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.mobile-logo {
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+.mobile-menu a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    padding: 10px;
+    display: block;
+    transition: background 0.3s;
+}
+
+.mobile-menu a:hover {
+    background: #f1f1f1;
+}
+
+/* Perfil en móvil */
+.mobile-profile {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.mobile-profile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 10px;
+}
+
+/* Botón Cerrar Menú */
+.close-menu {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+
+
+/* Responsive */
+@media (max-width: 800px) {
+    .nav-links {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .mobile-menu.active {
+        display: flex;
+    }
+}
