@@ -116,8 +116,11 @@ h2 {
 
 input.error-border {
     border: 2px solid red !important;
+    outline-color: red;
 }
 
 input.success-border {
     border: 2px solid green !important;
+    outline-color: green;
+
 }
