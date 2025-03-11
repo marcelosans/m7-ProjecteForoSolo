@@ -124,3 +124,16 @@ input.success-border {
     outline-color: green;
 
 }
+
+.weak-password {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Estilo para contraseñas fuertes */
+.strong-password {
+    color: green;
+    text-align: center;
+    font-weight: bold;
+}
