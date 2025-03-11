@@ -1,16 +1,9 @@
-/* styles.css */
-body {
- #### Creación de una página web similar a Spotify
-
-Para crear una página web similar a la de Spotify, utilizaremos HTML y CSS. Aquí tienes un ejemplo básico:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spotify Profile</title>
+  <title>Profile</title>
   <style>
     /* Estilos CSS */
     body {

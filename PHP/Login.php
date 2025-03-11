@@ -1,7 +1,7 @@
 <?php
 session_start(); 
 if (isset($_SESSION['email'])) {
-    header('Location: index.php'); 
+    header('Location: Index.php'); 
     exit;
 }
 
@@ -16,7 +16,7 @@ $messageClass = ""; // Variable para almacenar la clase del mensaje
     <meta charset="utf-8">
     <title>ForoSolo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="../CSS/Login.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
@@ -32,8 +32,8 @@ $messageClass = ""; // Variable para almacenar la clase del mensaje
 <body>
 
 <div class="login-container">
-    <img src="./img/logo-forosolo.png" alt="logo-foro-solo">
-    <form action="login.php" method="POST">
+    <img src="../Recursos/img/logo-forosolo.png" alt="logo-foro-solo">
+    <form action="Login.php" method="POST">
         <div class="inputform">
             <div class="form-group">
                 <input type="text" id="email" name="email" placeholder="Email/Usuario" required>
@@ -46,7 +46,7 @@ $messageClass = ""; // Variable para almacenar la clase del mensaje
     </form>
 
 <?php
-require_once('conectadb.php');
+require_once('ConectaDB.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['profile'] = $usuario['profile_image'];
             $_SESSION['bio'] = $usuario['bio'];
             $_SESSION['location'] = $usuario['location'];
-            header('Location: index.php');
+            header('Location: Index.php');
             exit;
         } else {
             $message = 'La contraseña es incorrecta.';
@@ -86,10 +86,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php endif; ?>
 
     <div class="options">
-        <a href="forgotPass.php">¿No recuerdas tu contraseña?</a>
+        <a href="ForgotPass.php">¿No recuerdas tu contraseña?</a>
     </div>
     <div class="options">
-        <a href="register.php">Regístrate</a>
+        <a href="Register.php">Regístrate</a>
     </div>
 </div>
 </body>

@@ -1,6 +1,6 @@
 <?php
-require 'conectadb.php'; // Conexión a la base de datos
-require 'vendor/autoload.php'; // PHPMailer
+require 'ConectaDB.php'; // Conexión a la base de datos
+require '../vendor/autoload.php'; // PHPMailer
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -46,51 +46,14 @@ $messageClass = "";
                 $mail->isHTML(true);
                 $mail->Subject = "Verificacio d'email - ForoSolo";
 
-                $activateLink = "http://localhost/m7-ProjecteForoSolo/verifExito.php?code=$activationCode&mail=" . urlencode($email);
+                $activateLink = "http://localhost/m7-ProjecteForoSolo/PHP/VerifExito.php?code=$activationCode&mail=" . urlencode($email);
 
                 $mail->Body = "<html>
                                 <head>
+                                    <link rel='stylesheet' href='../CSS/Correu.css'>
                                     <link rel='preconnect' href='https://fonts.googleapis.com'>
                                     <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
                                     <link href='https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap' rel='stylesheet'>
-                                    <style>
-                                        * {
-                                            text-align: center;
-                                            font-family: 'Press Start 2P', monospace; /* Aplica la fuente pixelada */
-                                        }
-                                        .container {
-                                            width: 80%;
-                                            margin: 0 auto;
-                                            padding: 20px;
-                                            border: 1px solid #ddd;
-                                            border-radius: 10px;
-                                            background-color: #949493;
-                                        }
-                                        .logo {
-                                            max-width: 200px;
-                                            margin-bottom: 20px;
-                                        }
-                                        .btn {
-                                            padding: 0.625rem 0.75rem;
-                                            font-size: 1rem;
-                                            line-height: 1.5;
-                                            color: #495057;
-                                            background-color: #fff;
-                                            border: 1px solid #ced4da;
-                                            border-radius: 0.25rem;
-                                            text-decoration: none;
-                                            display: inline-block;
-                                            font-family: 'Press Start 2P', monospace; /* Aplica la fuente pixelada al botón */
-                                        }
-                                        p {
-                                            color: black;
-                                            font-family: 'Press Start 2P', monospace; /* Aplica la fuente pixelada */
-                                        }
-                                        h2 {
-                                            color: black;
-                                            font-family: 'Press Start 2P', monospace; /* Aplica la fuente pixelada */
-                                        }
-                                    </style>
                                 </head>
                                 <body>
                                     <div class='container'>
@@ -131,7 +94,7 @@ $messageClass = "";
     <meta charset="utf-8">
     <title>ForoSolo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="../CSS/Index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
@@ -140,7 +103,7 @@ $messageClass = "";
     <div class="login-container">
         <h1>Verifica el correo</h1>
         <p>Verifica el correo para poder iniciar sessión</p>
-        <form action="index.php" method="POST">
+        <form action="Index.php" method="POST">
             <button class="btn" type="submit" value="login">Volver al login</button>
         </form>
     </div>

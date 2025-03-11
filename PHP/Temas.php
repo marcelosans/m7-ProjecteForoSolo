@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forosolo || Temas</title>
-    <link rel="stylesheet" href="./css/navbar.css">
-    <link rel="stylesheet" href="./css/temas.css">
-    <script defer src="script.js"></script>
+    <link rel="stylesheet" href="../CSS/Navbar.css">
+    <link rel="stylesheet" href="../CSS/Temas.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -16,8 +15,8 @@
     <header class="navbar">
         <div class="container">
             <!-- Logo -->
-            <a href="./homepage.php" class="logo">
-                <img src="./img/logo-forosolo.png" alt="Logo">
+            <a href="HomePage.php" class="logo">
+                <img src="../Recursos/img/logo-forosolo.png" alt="Logo">
             </a>
 
             <!-- Menú Desktop -->
@@ -44,7 +43,7 @@
     <div class="mobile-menu">
         <button class="close-menu">&times;</button>
         <div class="mobile-content">
-            <img src="./img/logo-forosolo.png" alt="Logo" class="mobile-logo">
+            <img src="../Recursos/img/logo-forosolo.png" alt="Logo" class="mobile-logo">
             <a href="#">Inicio</a>
             <a href="#">Temas</a>
 

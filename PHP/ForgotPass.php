@@ -1,6 +1,6 @@
 <?php
-require 'conectadb.php'; 
-require 'vendor/autoload.php';
+require 'ConectaDB.php'; 
+require '../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $mail->isHTML(true);
                 $mail->Subject = "Restabliment de contrasenya - ForoSolo";
 
-                $resetLink = "http://localhost/m7-ProjecteForoSolo/newPass.php?code=$resetPassCode";
+                $resetLink = "http://localhost/m7-ProjecteForoSolo/PHP/NewPass.php?code=$resetPassCode";
 
                 // Contenido HTML del correo
                 $mail->Body = "
@@ -127,16 +127,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="utf-8">
     <title>Recuperar contrasenya - ForoSolo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./css/newPass.css">
+    <link rel="stylesheet" href="../CSS/NewPass.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="login-container">
-        <img src="./img/logo-forosolo.png" alt="logo-foro-solo">
+        <img src="../Recursos/img/logo-forosolo.png" alt="logo-foro-solo">
         
-        <form action="forgotPass.php" method="POST">
+        <form action="ForgotPass.php" method="POST">
             <div class="inputform">
                 <div class="form-group">
                     <label for="email">Correu electrònic <span style="color: red;">*</span></label>
@@ -152,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
 
         <div class="options">
-            <p><a href="login.php">Tornar a iniciar sessió</a></p>
+            <p><a href="Login.php">Tornar a iniciar sessió</a></p>
         </div>
     </div>
 </body>

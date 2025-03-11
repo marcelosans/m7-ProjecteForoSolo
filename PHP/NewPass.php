@@ -1,5 +1,5 @@
 <?php
-require 'conectadb.php'; 
+require 'ConectaDB.php'; 
 
 $message = "";
 $messageClass = "";
@@ -55,20 +55,20 @@ if (isset($_GET['code'])) {
 <head>
     <meta charset="utf-8">
     <title>Restablir contrasenya - ForoSolo</title>
-    <link rel="stylesheet" href="./css/newPass.css">
+    <link rel="stylesheet" href="../CSS/NewPass.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="login-container">
-        <img src="./img/logo-forosolo.png" alt="logo-foro-solo">        
+        <img src="../Recursos/img/logo-forosolo.png" alt="logo-foro-solo">        
         <?php if (!empty($message)): ?>
             <div class="message <?php echo $messageClass; ?>"><?php echo $message; ?></div>
         <?php endif; ?>
 
         <?php if (isset($user) && empty($messageClass)): ?>
-            <form action="newPass.php?code=<?php echo $resetPassCode; ?>" method="POST">
+            <form action="NewPass.php?code=<?php echo $resetPassCode; ?>" method="POST">
                 <div class="inputform">
                     <div class="form-group">
                         <label for="new_password">Nova contrasenya <span style="color: red;">*</span></label>
@@ -84,7 +84,7 @@ if (isset($_GET['code'])) {
         <?php endif; ?>
 
         <div class="options">
-            <p><a href="login.php">Tornar a iniciar sessió</a></p>
+            <p><a href="Login.php">Tornar a iniciar sessió</a></p>
         </div>
     </div>
 </body>
