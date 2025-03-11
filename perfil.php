@@ -1,3 +1,11 @@
+<?php
+session_start(); 
+if (!isset($_SESSION['email'])) {
+    header('Location: login.php'); 
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forosolo || Inicio</title>
     <link rel="stylesheet" href="./css/navbar.css">
-    <link rel="stylesheet" href="./css/publicacion.css">
+    <link rel="stylesheet" href="./css/perfil.css">
     <script defer src="script.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,10 +35,10 @@
 
                 <!-- Dropdown Perfil -->
                 <div class="profile">
-                    <img src="https://media.tenor.com/BTz-_I5htewAAAAe/borzoi-fish.png" alt="Foto de Perfil">
+                    <img src="./profile/<?php echo $_SESSION['profile']; ?>" alt="Foto de Perfil">
                     <ul class="dropdown">
                         <li><a href="#">Mi Perfil</a></li>
-                        <li><a href="#">Cerrar Sesión</a></li>
+                        <li><a href="cerrarSesion.php">Cerrar Sesión</a></li>
                     </ul>
                 </div>
             </nav>
@@ -50,9 +58,9 @@
 
             <!-- Dropdown en móvil -->
             <div class="mobile-profile">
-                <img src="https://media.tenor.com/BTz-_I5htewAAAAe/borzoi-fish.png" alt="Foto de Perfil">
+                <img src="./profile/<?php echo $_SESSION['profile']; ?>" alt="Foto de Perfil">
                 <a href="#">Mi Perfil</a>
-                <a href="#">Cerrar Sesión</a>
+                <a href="cerrarSesion.php">Cerrar Sesión</a>
             </div>
         </div>
     </div>
@@ -81,44 +89,43 @@
 
 
 
-<div class="publicacions">
 
-
-<?php
-require_once('conectadb.php');
-
-$sql = 'SELECT * FROM `publicacio`';
-$preparada = $db->prepare($sql);
-$preparada->execute();
-$publicaciones = $preparada->fetchAll(PDO::FETCH_ASSOC);
-
-?>
-
-
-<?php foreach ($publicaciones as $publicacio): ?>
-    <div class="post-container">
-    <div class="post-header">
-        <div class="user-info">
-            <img src="https://i.imgur.com/Qv2d7Fj.png" alt="Usuario">
-            <span class="username">pacosans</span>
+<div class="profile-container">
+        <div class="banner">
+            <img src="https://i.pinimg.com/736x/eb/80/34/eb803487c680ce5c7936f8c49fa8ac30.jpg" alt="Banner">
         </div>
-        <span class="date">Fecha: <?php echo htmlspecialchars($publicacio['dataPub']); ?></span>
+        <div class="profile-info">
+            <div class="profile-pic">
+                <img src="./profile/<?php echo $_SESSION['profile']; ?>" alt="Foto de perfil">
+            </div>
+            <h1><?php echo $_SESSION['username']; ?></h1>
+            <a href="./edit-profile.php" class="edit-profile">Modificar Perfil</a>
+
+            <div class="stats">
+                <div class="stat">
+                    <p>Hilos:</p>
+                    <h2>69</h2>
+                </div>
+                <div class="about">
+                    <p><strong>Sobre Mí:</strong> <?php echo $_SESSION['bio']; ?></p>
+                    <p><strong>Ubicación 📍:</strong> Barcelona</p>
+                    <p><strong>Nombre :</strong> <?php echo $_SESSION['nom']; ?></p>
+                </div>
+                <div class="stat">
+                    <p>Publicaciones:</p>
+                    <h2>420</h2>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="post-content">
-        <p><?php echo nl2br(htmlspecialchars($publicacio['Contingut'])); ?></p>
-    </div>
-    <button class="reply-button">Responder</button>
-</div>
-    <?php endforeach; ?>
-
-</div>
-
-<!-- Button trigger modal -->
-
-
-
-
 
 
 </body>
 </html>
+
+
+
+
+
+
+
