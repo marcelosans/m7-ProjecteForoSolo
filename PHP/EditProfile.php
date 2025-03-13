@@ -1,7 +1,7 @@
 <?php
 session_start(); 
 if (!isset($_SESSION['email'])) {
-    header('Location: login.php'); 
+    header('Location: Login.php'); 
     exit;
 }
 ?>
@@ -12,8 +12,8 @@ if (!isset($_SESSION['email'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forosolo || Inicio</title>
-    <link rel="stylesheet" href="./css/navbar.css">
-    <link rel="stylesheet" href="./css/edit-profile.css">
+    <link rel="stylesheet" href="../CSS/Navbar.css">
+    <link rel="stylesheet" href="../CSS/EditProfile.css">
     <script defer src="script.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,8 +23,8 @@ if (!isset($_SESSION['email'])) {
 <header class="navbar">
         <div class="container">
             <!-- Logo -->
-            <a href="./homepage.php" class="logo">
-                <img src="./img/logo-forosolo.png" alt="Logo">
+            <a href="./HomePage.php" class="logo">
+                <img src="../img/logo-forosolo.png" alt="Logo">
             </a>
 
             <!-- Menú Desktop -->
@@ -51,7 +51,7 @@ if (!isset($_SESSION['email'])) {
     <div class="mobile-menu">
         <button class="close-menu">&times;</button>
         <div class="mobile-content">
-            <img src="./img/logo-forosolo.png" alt="Logo" class="mobile-logo">
+            <img src="../img/logo-forosolo.png" alt="Logo" class="mobile-logo">
             <a href="#">Inicio</a>
             <a href="#">Temas</a>
 
