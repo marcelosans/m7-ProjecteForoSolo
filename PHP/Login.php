@@ -62,6 +62,7 @@ $messageClass = ""; // Variable para almacenar la clase del mensaje
 
         $sql = 'SELECT * FROM `users` WHERE (mail = :email OR username = :email) AND activeU = 1';
 
+<<<<<<< HEAD
         $preparada = $db->prepare($sql);
         $preparada->bindParam(':email', $email);
         $preparada->execute();
@@ -82,6 +83,15 @@ $messageClass = ""; // Variable para almacenar la clase del mensaje
                 $message = 'La contraseña es incorrecta.';
                 $messageClass = 'error-message';
             }
+=======
+    if ($preparada->rowCount() == 1) {
+        $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
+        if (password_verify($contra, $usuario['passHash'])) {
+            session_start();
+            $_SESSION['email'] = $usuario['mail'];
+            header('Location: Index.php');
+            exit;
+>>>>>>> 327fa080ad981a58591435df3fd782e9d0f16527
         } else {
             $message = 'El usuario no existe.';
             $messageClass = 'error-message';
