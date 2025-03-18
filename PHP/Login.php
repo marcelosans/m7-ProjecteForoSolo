@@ -63,11 +63,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($contra, $usuario['passHash'])) {
             session_start();
             $_SESSION['email'] = $usuario['mail'];
-            $_SESSION['username'] = $usuario['username'];
-            $_SESSION['nom'] = $usuario['userFirstName'];
-            $_SESSION['profile'] = $usuario['profile_image'];
-            $_SESSION['bio'] = $usuario['bio'];
-            $_SESSION['location'] = $usuario['location'];
             header('Location: Index.php');
             exit;
         } else {

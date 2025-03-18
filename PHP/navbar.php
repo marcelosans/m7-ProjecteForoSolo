@@ -1,34 +1,5 @@
-<?php
-session_start(); 
-if (!isset($_SESSION['email'])) {
-    header('Location: Login.php'); 
-    exit;
-}
 
-require_once('ConectaDB.php');
-         $sql = 'SELECT * FROM `users` WHERE mail = :email ';
-
-$preparada = $db->prepare($sql);
-$preparada->bindParam(':email', $_SESSION['email']);
-$preparada->execute();
-$usuario = $preparada->fetch(PDO::FETCH_ASSOC);
-?>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forosolo || Inicio</title>
-    <link rel="stylesheet" href="../CSS/navbar.css">
-    <link rel="stylesheet" href="../CSS/publicacion.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
-</head>
-<body>
-
-<header class="navbar">
+    <header class="navbar">
         <div class="container">
             <!-- Logo -->
             <a href="HomePage.php" class="logo">
@@ -93,51 +64,3 @@ $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
     });
 });
 </script>
-
-
-
-<div class="publicacions">
-
-
-<?php
-require_once('ConectaDB.php');
-
-$sql = "SELECT p.*, u.username, u.profile_image 
-        FROM Publicacio p
-        JOIN Users u ON p.idUser = u.iduser";
-
-$preparada = $db->prepare($sql);
-$preparada->execute();
-$publicaciones = $preparada->fetchAll(PDO::FETCH_ASSOC);
-?>
-
-<!-- Formulario de Búsqueda -->
-
-<?php foreach ($publicaciones as $publicacio): ?>
-    <div class="post-container">
-        <div class="post-header">
-            <div class="user-info">
-                <img src="<?= !empty($publicacio['profile_image']) ? 'data:image/jpeg;base64,' . $publicacio['profile_image'] : 'default-profile.png' ?>" alt="Usuario">
-                <span class="username"><?= htmlspecialchars($publicacio['username']) ?></span>
-            </div>
-            <span class="date">Fecha: <?= htmlspecialchars($publicacio['dataPub']) ?></span>
-        </div>
-        <div class="post-content">
-            <p><?= nl2br(htmlspecialchars($publicacio['Contingut'])) ?></p>
-        </div>
-        <button class="reply-button">Responder</button>
-    </div>
-<?php endforeach; ?>
-
-
-</div>
-
-<!-- Button trigger modal -->
-
-
-
-
-
-
-</body>
-</html>
