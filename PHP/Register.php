@@ -87,14 +87,17 @@ $registrationHandler->handleRegistration();
 </head>
 
 <body>
-    <!-- Overlay y elementos de carga -->
-    <div class="loader-overlay" id="loader">
-        <div class="spinner"></div>
-        <div class="loading-text">Cargando...</div>
+    <!-- Animacion Load -->
+    <div id="loader" class="loader-overlay">
+        <div>
+            <img id="loading-gif" src="" alt="Cargando..." class="loading-gif">
+            <div class="loading-text">CARGANDO...</div>
+        </div>
     </div>
 
-    <!-- Contenido de la página -->
     <div id="content">
+    <!-- Contenido de la página -->
+    
         <div class="login-container">
             <img src="../Recursos/img/logo-forosolo.png" alt="logo-foro-solo">
 

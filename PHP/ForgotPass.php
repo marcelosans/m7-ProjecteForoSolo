@@ -27,6 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt = $db->prepare("UPDATE users SET resetPassCode = ?, resetPassExpiry = ? WHERE iduser = ?");
                 $stmt->execute([$resetPassCode, $resetPassExpiry, $user['iduser']]);
 
+                // Lee el contenido del archivo CSS
+                $css_File = file_get_contents("../CSS/Correu.css");
+
                 $mail = new PHPMailer(true);
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com'; 
@@ -44,49 +47,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $resetLink = "http://localhost/m7-ProjecteForoSolo/PHP/NewPass.php?code=$resetPassCode";
 
-                // Contenido HTML del correo
+                // Contenido HTML del correo con CSS incorporado desde archivo externo
                 $mail->Body = "
                                 <html>
                                     <head>
+                                        <style type=\"text/css\">" . $css_File . "</style>
                                         <link href='https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap' rel='stylesheet'>
-                                        <style>
-                                            * {
-                                                text-align: center;
-                                                font-family: 'Press Start 2P', monospace; /* Aplica la fuente pixelada */
-                                            }
-                                            .container {
-                                                width: 80%;
-                                                margin: 0 auto;
-                                                padding: 20px;
-                                                border: 1px solid #ddd;
-                                                border-radius: 10px;
-                                                background-color: #949493;
-                                            }
-                                            .logo {
-                                                max-width: 200px;
-                                                margin-bottom: 20px;
-                                            }
-                                            .btn {
-                                                padding: 0.625rem 0.75rem;
-                                                font-size: 1rem;
-                                                line-height: 1.5;
-                                                color: #495057;
-                                                background-color: #fff;
-                                                border: 1px solid #ced4da;
-                                                border-radius: 0.25rem;
-                                                text-decoration: none;
-                                                display: inline-block;
-                                                font-family: 'Press Start 2P', monospace; /* Aplica la fuente pixelada al botón */
-                                            }
-                                            p {
-                                                color: black;
-                                                font-family: 'Press Start 2P', monospace; /* Aplica la fuente pixelada */
-                                            }
-                                            h2 {
-                                                color: black;
-                                                font-family: 'Press Start 2P', monospace; /* Aplica la fuente pixelada */
-                                            }
-                                        </style>
                                     </head>
                                     <body>
                                         <div class='container'>

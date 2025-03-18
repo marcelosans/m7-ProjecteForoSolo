@@ -30,67 +30,78 @@ $messageClass = ""; // Variable para almacenar la clase del mensaje
     </style>
 </head>
 <body>
-
-<div class="login-container">
-    <img src="../Recursos/img/logo-forosolo.png" alt="logo-foro-solo">
-    <form action="Login.php" method="POST">
-        <div class="inputform">
-            <div class="form-group">
-                <input type="text" id="email" name="email" placeholder="Email/Usuario" required>
-            </div>
-            <div class="form-group">
-                <input type="password" id="password" name="password" placeholder="Contraseña" required>
-            </div>
+<!-- Animacion Load -->
+    <div id="loader" class="loader-overlay">
+        <div>
+            <img id="loading-gif" src="" alt="Cargando..." class="loading-gif">
+            <div class="loading-text">CARGANDO...</div>
         </div>
-        <button type="submit" class="btn">Iniciar Sesión</button>
-    </form>
+    </div>
+    <div class="login-container">
 
-<?php
-require_once('ConectaDB.php');
+    <div id="content">
+        <img src="../Recursos/img/logo-forosolo.png" alt="logo-foro-solo">
+        <form action="Login.php" method="POST">
+            <div class="inputform">
+                <div class="form-group">
+                    <input type="text" id="email" name="email" placeholder="Email/Usuario" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                </div>
+            </div>
+            <button type="submit" class="btn">Iniciar Sesión</button>
+        </form>
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST['email'];
-    $contra = $_POST['password'];
+    <?php
+    require_once('ConectaDB.php');
 
-    $sql = 'SELECT * FROM `users` WHERE (mail = :email OR username = :email) AND activeU = 1';
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $email = $_POST['email'];
+        $contra = $_POST['password'];
 
-    $preparada = $db->prepare($sql);
-    $preparada->bindParam(':email', $email);
-    $preparada->execute();
+        $sql = 'SELECT * FROM `users` WHERE (mail = :email OR username = :email) AND activeU = 1';
 
-    if ($preparada->rowCount() == 1) {
-        $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
-        if (password_verify($contra, $usuario['passHash'])) {
-            session_start();
-            $_SESSION['email'] = $usuario['mail'];
-            $_SESSION['username'] = $usuario['username'];
-            $_SESSION['nom'] = $usuario['userFirstName'];
-            $_SESSION['profile'] = $usuario['profile_image'];
-            $_SESSION['bio'] = $usuario['bio'];
-            $_SESSION['location'] = $usuario['location'];
-            header('Location: Index.php');
-            exit;
+        $preparada = $db->prepare($sql);
+        $preparada->bindParam(':email', $email);
+        $preparada->execute();
+
+        if ($preparada->rowCount() == 1) {
+            $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
+            if (password_verify($contra, $usuario['passHash'])) {
+                session_start();
+                $_SESSION['email'] = $usuario['mail'];
+                $_SESSION['username'] = $usuario['username'];
+                $_SESSION['nom'] = $usuario['userFirstName'];
+                $_SESSION['profile'] = $usuario['profile_image'];
+                $_SESSION['bio'] = $usuario['bio'];
+                $_SESSION['location'] = $usuario['location'];
+                header('Location: Index.php');
+                exit;
+            } else {
+                $message = 'La contraseña es incorrecta.';
+                $messageClass = 'error-message';
+            }
         } else {
-            $message = 'La contraseña es incorrecta.';
+            $message = 'El usuario no existe.';
             $messageClass = 'error-message';
         }
-    } else {
-        $message = 'El usuario no existe.';
-        $messageClass = 'error-message';
     }
-}
-?>
+    ?>
 
-    <?php if (!empty($message)): ?>
-        <div class="<?php echo $messageClass; ?>"><?php echo $message; ?></div>
-    <?php endif; ?>
+        <?php if (!empty($message)): ?>
+            <div class="<?php echo $messageClass; ?>"><?php echo $message; ?></div>
+        <?php endif; ?>
 
-    <div class="options">
-        <a href="ForgotPass.php">¿No recuerdas tu contraseña?</a>
-    </div>
-    <div class="options">
-        <a href="Register.php">Regístrate</a>
-    </div>
+        <div class="options">
+            <a href="ForgotPass.php">¿No recuerdas tu contraseña?</a>
+        </div>
+        <div class="options">
+            <a href="Register.php">Regístrate</a>
+        </div>
+    <div>
 </div>
 </body>
+<script src="../Js/Loading.js"></script>
+
 </html>

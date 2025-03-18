@@ -30,6 +30,9 @@ $messageClass = "";
                 $stmt = $db->prepare("UPDATE users SET activationCode = ? WHERE iduser = ?");
                 $stmt->execute([$activationCode,$user['iduser']]);
 
+                // Lee el contenido del archivo CSS
+                $css_File = file_get_contents("../CSS/Correu.css");
+
                 // Configura PHPMailer
                 $mail = new PHPMailer(true);
                 $mail->isSMTP();
@@ -50,7 +53,7 @@ $messageClass = "";
 
                 $mail->Body = "<html>
                                 <head>
-                                    <link rel='stylesheet' href='../CSS/Correu.css'>
+                                    <style type=\"text/css\">" . $css_File . "</style>
                                     <link rel='preconnect' href='https://fonts.googleapis.com'>
                                     <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
                                     <link href='https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap' rel='stylesheet'>
