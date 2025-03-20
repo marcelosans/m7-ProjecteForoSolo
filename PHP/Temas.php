@@ -24,6 +24,7 @@ $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
     <title>Forosolo || Temas</title>
     <link rel="stylesheet" href="../CSS/Navbar.css">
     <link rel="stylesheet" href="../CSS/Temas.css">
+    <link rel="stylesheet" href="../CSS/Loading.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -36,6 +37,8 @@ $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
             <a href="HomePage.php" class="logo">
                 <img src="../Recursos/img/logo-forosolo.png" alt="Logo">
             </a>
+            
+            <div id="content">
 
             <!-- Menú Desktop -->
             <nav class="nav-links">
@@ -58,6 +61,7 @@ $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
     </header>
 
     <!-- Menú Móvil -->
+     
     <div class="mobile-menu">
         <button class="close-menu">&times;</button>
         <div class="mobile-content">
@@ -96,6 +100,13 @@ $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
 });
 </script>
 
+
+    <div id="loader" class="loader-overlay">
+        <div>
+            <img id="loading-gif" src="" alt="Cargando..." class="loading-gif">
+            <div class="loading-text">CARGANDO...</div>
+        </div>
+    </div>
 
     <h1>TEMAS</h1>
     <main class="page-content">
@@ -207,7 +218,7 @@ $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
         </div>
     </main>
 
-    
+    <script src="../Js/Loading.js"></script>
 
     <script>
        document.addEventListener("DOMContentLoaded", function () {
@@ -236,5 +247,7 @@ $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
         */
     });
     </script>
+    
+
 </body>
 </html>

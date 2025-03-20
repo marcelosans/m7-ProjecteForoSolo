@@ -20,7 +20,7 @@ body {
     align-items: center;
     flex-direction: column;
     height: 100vh;
-    gap: 40px; /* Espacio entre publicaciones */
+    gap: 40px; 
     margin-top: 100px;
     
 }

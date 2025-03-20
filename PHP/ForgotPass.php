@@ -27,6 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt = $db->prepare("UPDATE users SET resetPassCode = ?, resetPassExpiry = ? WHERE iduser = ?");
                 $stmt->execute([$resetPassCode, $resetPassExpiry, $user['iduser']]);
 
+                // Lee el contenido del archivo CSS
+                $css_File = file_get_contents("../CSS/Correu.css");
+
                 $mail = new PHPMailer(true);
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com'; 
@@ -44,49 +47,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $resetLink = "http://localhost/m7-ProjecteForoSolo/PHP/NewPass.php?code=$resetPassCode";
 
-                // Contenido HTML del correo
+                // Contenido HTML del correo con CSS incorporado desde archivo externo
                 $mail->Body = "
                                 <html>
                                     <head>
+                                        <style type=\"text/css\">" . $css_File . "</style>
                                         <link href='https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap' rel='stylesheet'>
-                                        <style>
-                                            * {
-                                                text-align: center;
-                                                font-family: 'Press Start 2P', monospace; /* Aplica la fuente pixelada */
-                                            }
-                                            .container {
-                                                width: 80%;
-                                                margin: 0 auto;
-                                                padding: 20px;
-                                                border: 1px solid #ddd;
-                                                border-radius: 10px;
-                                                background-color: #949493;
-                                            }
-                                            .logo {
-                                                max-width: 200px;
-                                                margin-bottom: 20px;
-                                            }
-                                            .btn {
-                                                padding: 0.625rem 0.75rem;
-                                                font-size: 1rem;
-                                                line-height: 1.5;
-                                                color: #495057;
-                                                background-color: #fff;
-                                                border: 1px solid #ced4da;
-                                                border-radius: 0.25rem;
-                                                text-decoration: none;
-                                                display: inline-block;
-                                                font-family: 'Press Start 2P', monospace; /* Aplica la fuente pixelada al botón */
-                                            }
-                                            p {
-                                                color: black;
-                                                font-family: 'Press Start 2P', monospace; /* Aplica la fuente pixelada */
-                                            }
-                                            h2 {
-                                                color: black;
-                                                font-family: 'Press Start 2P', monospace; /* Aplica la fuente pixelada */
-                                            }
-                                        </style>
                                     </head>
                                     <body>
                                         <div class='container'>
@@ -128,12 +94,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Recuperar contrasenya - ForoSolo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../CSS/NewPass.css">
+    <link rel="stylesheet" href="../CSS/Loading.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
 </head>
 <body>
+<div id="loader" class="loader-overlay">
+        <div>
+            <img id="loading-gif" src="" alt="Cargando..." class="loading-gif">
+            <div class="loading-text">CARGANDO...</div>
+        </div>
+    </div>
+        
     <div class="login-container">
+        <div id="content">
         <img src="../Recursos/img/logo-forosolo.png" alt="logo-foro-solo">
         
         <form action="ForgotPass.php" method="POST">
@@ -155,5 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p><a href="Login.php">Tornar a iniciar sessió</a></p>
         </div>
     </div>
+    <script src="../Js/Loading.js"></script>
+            
 </body>
 </html>
