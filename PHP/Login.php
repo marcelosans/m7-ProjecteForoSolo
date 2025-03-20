@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($contra, $usuario['passHash'])) {
             session_start();
             $_SESSION['email'] = $usuario['mail'];
-            header('Location: Index.php');
+            header('Location: HomePage.php');
             exit;
         } else {
             $message = 'La contraseña es incorrecta.';

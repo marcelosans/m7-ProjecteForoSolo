@@ -120,22 +120,22 @@ if (!isset($_SESSION['email'])) {
 
             <div class="form-group">
                 <label for="nombre">Nom</label>
-                <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($usuario['userFirstName']); ?>">
+                <input type="text" id="nombre" maxlength="50" name="nombre" value="<?php echo htmlspecialchars($usuario['userFirstName']); ?>">
             </div>
 
             <div class="form-group">
                 <label for="apellido">Cognom</label>
-                <input type="text" id="apellido" name="apellido" value="<?php echo htmlspecialchars($usuario['userLastName']); ?>">
+                <input type="text" id="apellido" maxlength="50" name="apellido" value="<?php echo htmlspecialchars($usuario['userLastName']); ?>">
             </div>
 
             <div class="form-group">
                 <label for="bio">Biografía</label>
-                <textarea id="bio" name="bio" rows="3"><?php echo htmlspecialchars($usuario['bio']); ?></textarea>
+                <textarea id="bio" name="bio" maxlength="50" rows="3"><?php echo htmlspecialchars($usuario['bio']); ?></textarea>
             </div>
 
             <div class="form-group">
                 <label for="fecha_nacimiento">Fecha Nacimiento</label>
-                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="<?php echo htmlspecialchars($usuario['age']); ?>">
+                <input type="date"  id="fecha_nacimiento" max="<?= date('Y-m-d'); ?>" name="fecha_nacimiento" value="<?php echo htmlspecialchars($usuario['age']); ?>">
             </div>
 
             <div class="form-group">

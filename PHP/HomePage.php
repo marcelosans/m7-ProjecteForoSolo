@@ -1,3 +1,19 @@
+<?php
+session_start(); 
+if (!isset($_SESSION['email'])) {
+    header('Location: Login.php'); 
+    exit;
+}
+
+require_once('ConectaDB.php');
+         $sql = 'SELECT * FROM `users` WHERE mail = :email ';
+
+$preparada = $db->prepare($sql);
+$preparada->bindParam(':email', $_SESSION['email']);
+$preparada->execute();
+$usuario = $preparada->fetch(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,24 +27,24 @@
 </head>
 <body>
 
-    <header class="navbar">
+<header class="navbar">
         <div class="container">
             <!-- Logo -->
-            <a href="../HomePage.php" class="logo">
+            <a href="HomePage.php" class="logo">
                 <img src="../Recursos/img/logo-forosolo.png" alt="Logo">
             </a>
 
             <!-- Menú Desktop -->
             <nav class="nav-links">
                 <a href="#">Inicio</a>
-                <a href="#">Temas</a>
+                <a href="./Temas.php">Temas</a>
 
                 <!-- Dropdown Perfil -->
                 <div class="profile">
-                    <img src="https://media.tenor.com/BTz-_I5htewAAAAe/borzoi-fish.png" alt="Foto de Perfil">
+                <img src="<?= !empty($usuario['profile_image']) ?  $usuario['profile_image'] : '../profile/profile.png' ?>" alt="Imagen de perfil">
                     <ul class="dropdown">
-                        <li><a href="#">Mi Perfil</a></li>
-                        <li><a href="#">Cerrar Sesión</a></li>
+                        <li><a href="./Perfil.php">Mi Perfil</a></li>
+                        <li><a href="cerrarSesion.php">Cerrar Sesión</a></li>
                     </ul>
                 </div>
             </nav>
@@ -42,15 +58,15 @@
     <div class="mobile-menu">
         <button class="close-menu">&times;</button>
         <div class="mobile-content">
-            <img src="../Resursos/img/logo-forosolo.png" alt="Logo" class="mobile-logo">
-            <a href="#">Inicio</a>
-            <a href="#">Temas</a>
+            <img src="../Recursos/img/logo-forosolo.png" alt="Logo" class="mobile-logo">
+            <a href="">Inicio</a>
+            <a href="./Temas.php">Temas</a>
 
             <!-- Dropdown en móvil -->
             <div class="mobile-profile">
-                <img src="https://media.tenor.com/BTz-_I5htewAAAAe/borzoi-fish.png" alt="Foto de Perfil">
-                <a href="#">Mi Perfil</a>
-                <a href="#">Cerrar Sesión</a>
+            <img src="<?= !empty($usuario['profile_image']) ?  $usuario['profile_image'] : '../profile/profile.png' ?>" alt="Imagen de perfil">
+                <a href="./Perfil.php">Mi Perfil</a>
+                <a href="cerrarSesion.php">Cerrar Sesión</a>
             </div>
         </div>
     </div>
@@ -76,5 +92,6 @@
     });
 });
 </script>
+
 </body>
 </html>

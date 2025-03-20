@@ -1,3 +1,21 @@
+<?php
+session_start(); 
+if (!isset($_SESSION['email'])) {
+    header('Location: Login.php'); 
+    exit;
+}
+
+require_once('ConectaDB.php');
+         $sql = 'SELECT * FROM `users` WHERE mail = :email ';
+
+$preparada = $db->prepare($sql);
+$preparada->bindParam(':email', $_SESSION['email']);
+$preparada->execute();
+$usuario = $preparada->fetch(PDO::FETCH_ASSOC);
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,7 +30,7 @@
 </head>
 <body>
 
-    <header class="navbar">
+<header class="navbar">
         <div class="container">
             <!-- Logo -->
             <a href="HomePage.php" class="logo">
@@ -22,14 +40,14 @@
             <!-- Menú Desktop -->
             <nav class="nav-links">
                 <a href="#">Inicio</a>
-                <a href="#" >Temas</a>
+                <a href="./Temas.php">Temas</a>
 
                 <!-- Dropdown Perfil -->
                 <div class="profile">
-                    <img src="https://media.tenor.com/BTz-_I5htewAAAAe/borzoi-fish.png" alt="Foto de Perfil">
+                <img src="<?= !empty($usuario['profile_image']) ?  $usuario['profile_image'] : '../profile/profile.png' ?>" alt="Imagen de perfil">
                     <ul class="dropdown">
-                        <li><a href="#">Mi Perfil</a></li>
-                        <li><a href="#">Cerrar Sesión</a></li>
+                        <li><a href="./Perfil.php">Mi Perfil</a></li>
+                        <li><a href="cerrarSesion.php">Cerrar Sesión</a></li>
                     </ul>
                 </div>
             </nav>
@@ -44,96 +62,100 @@
         <button class="close-menu">&times;</button>
         <div class="mobile-content">
             <img src="../Recursos/img/logo-forosolo.png" alt="Logo" class="mobile-logo">
-            <a href="#">Inicio</a>
-            <a href="#">Temas</a>
+            <a href="">Inicio</a>
+            <a href="./Temas.php">Temas</a>
 
             <!-- Dropdown en móvil -->
             <div class="mobile-profile">
-                <img src="https://media.tenor.com/BTz-_I5htewAAAAe/borzoi-fish.png" alt="Foto de Perfil">
-                <a href="#">Mi Perfil</a>
-                <a href="#">Cerrar Sesión</a>
+            <img src="<?= !empty($usuario['profile_image']) ?  $usuario['profile_image'] : '../profile/profile.png' ?>" alt="Imagen de perfil">
+                <a href="./Perfil.php">Mi Perfil</a>
+                <a href="cerrarSesion.php">Cerrar Sesión</a>
             </div>
         </div>
     </div>
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+    const menuToggle = document.querySelector(".menu-toggle");
+    const mobileMenu = document.querySelector(".mobile-menu");
+    const closeMenu = document.querySelector(".close-menu");
+    const mobileProfileToggle = document.getElementById("mobile-profile-toggle");
+    const mobileDropdown = document.getElementById("mobile-dropdown");
+
+    menuToggle.addEventListener("click", function () {
+        mobileMenu.classList.add("active");
+    });
+
+    closeMenu.addEventListener("click", function () {
+        mobileMenu.classList.remove("active");
+    });
+
+    // Mostrar/ocultar dropdown en móvil
+    mobileProfileToggle.addEventListener("click", function () {
+        mobileDropdown.classList.toggle("active");
+    });
+});
+</script>
+
 
     <h1>TEMAS</h1>
     <main class="page-content">
         <div class="container main-container">
             
 
+        <?php
+            require_once('ConectaDB.php');
+            $sql = 'SELECT * FROM `Tema`';
+            $preparada = $db->prepare($sql);
+            $preparada->execute();
+            $temas = $preparada->fetchAll(PDO::FETCH_ASSOC);
+            ?>
+
             <div class="content-layout">
                 <div class="temas-container">
-                    <div class="tema">
-                        <div class="tema-image">
-                            <img src="https://ih1.redbubble.net/image.790724956.2450/flat,750x,075,f-pad,750x1000,f8f8f8.u23.jpg" alt="Yakuza 0">
-                        </div>
-                        <div class="tema-info">
-                            <h2>Yakuza 0</h2>
-                            <div class="tema-stats">
-                                <div class="stat">
-                                    <span class="stat-icon">📝</span>
-                                    <span class="stat-value">20 hilos</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-icon">💬</span>
-                                    <span class="stat-value">100 publicaciones</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-icon">🔥</span>
-                                    <span class="stat-value">Muy activo</span>
-                                </div>
-                            </div>
-                            <a href="#" class="btn-ver-tema">Ver tema</a>
-                        </div>
-                    </div>
+                <?php foreach ($temas as $tema): ?>
 
-                    <div class="tema">
-                        <div class="tema-image">
-                            <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/32440/header.jpg?t=1604517910" alt="Lego Star Wars Complete Saga">
+            <div class="tema">
+                <div class="tema-image">
+                    <img src="<?= htmlspecialchars($tema['imagen']) ?>" alt="<?= htmlspecialchars($tema['nomVideojoc']) ?>">
+                </div>
+                <div class="tema-info">
+                    <h2><?= htmlspecialchars($tema['nomVideojoc']) ?></h2>
+                    <div class="tema-stats">
+                        <div class="stat">
+                            <span class="stat-icon">📝</span>
+                            <span class="stat-value">20 hilos</span>
                         </div>
-                        <div class="tema-info">
-                            <h2>Lego Star Wars Complete Saga</h2>
-                            <div class="tema-stats">
-                                <div class="stat">
-                                    <span class="stat-icon">📝</span>
-                                    <span class="stat-value">20 hilos</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-icon">💬</span>
-                                    <span class="stat-value">100 publicaciones</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-icon">🔥</span>
-                                    <span class="stat-value">Muy activo</span>
-                                </div>
-                            </div>
-                            <a href="#" class="btn-ver-tema">Ver tema</a>
-                        </div>
-                    </div>
+                        <div class="stat">
+                            <span class="stat-icon">💬</span>
+                            <span class="stat-value"><?php
+                      
+                        $numPublicaciones = "SELECT COUNT(P.idPublicacio) AS totalPublicaciones
+                                                FROM Tema T
+                                                LEFT JOIN Hilo H ON T.nomVideojoc = H.nomVideojoc
+                                                LEFT JOIN Publicacio P ON H.idHilo = P.idHilo
+                                                WHERE T.nomVideojoc = :nomVideojoc";
 
-                    <div class="tema">
-                        <div class="tema-image">
-                            <img src="https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_switch_4/H2x1_NSwitch_SuperMarioOdyssey_image1600w.jpg" alt="Super Mario Odyssey">
+                        $preparada = $db->prepare($numPublicaciones);
+                        $preparada->bindParam(':nomVideojoc', $tema['nomVideojoc'], PDO::PARAM_INT);
+                        $preparada->execute();
+                        $resultado = $preparada->fetch(PDO::FETCH_ASSOC);
+
+                        $totalPublicaciones = $resultado['totalPublicaciones'];
+
+                       
+
+                        echo "Publicaciones: $totalPublicaciones";
+                          ?></span>
                         </div>
-                        <div class="tema-info">
-                            <h2>Super Mario Odyssey</h2>
-                            <div class="tema-stats">
-                                <div class="stat">
-                                    <span class="stat-icon">📝</span>
-                                    <span class="stat-value">15 hilos</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-icon">💬</span>
-                                    <span class="stat-value">75 publicaciones</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="stat-icon">🔥</span>
-                                    <span class="stat-value">Activo</span>
-                                </div>
-                            </div>
-                            <a href="#" class="btn-ver-tema">Ver tema</a>
+                        <div class="stat">
+                            <span class="stat-icon">🔥</span>
+                            <span class="stat-value">Muy activo</span>
                         </div>
                     </div>
+                    <a href="#" class="btn-ver-tema">Ver tema</a>
+                </div>
+            </div>
+        <?php endforeach; ?>
                 </div>
 
                 <aside class="sidebar">
