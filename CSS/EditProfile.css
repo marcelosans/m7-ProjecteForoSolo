@@ -130,7 +130,7 @@ body {
 
 .success-message {
     position: fixed;
-    top: 80px; /* Bajado para que no se solape con el navbar */
+    top: 80px; 
     right: 20px;
     background-color: #4CAF50;
     color: white;
@@ -141,7 +141,7 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     font-weight: 500;
     font-size: 14px;
-    z-index: 100; /* Asegurarse de que aparezca por encima de otros elementos */
+    z-index: 100; 
 }
 
 
@@ -175,7 +175,7 @@ body {
 
 
 .save-button:disabled {
-    background-color: #ccc; /* Gris cuando está deshabilitado */
+    background-color: #ccc;
     cursor: not-allowed;
 }
 
@@ -190,7 +190,7 @@ body {
 
 @media (max-width: 500px) {
     .page-content {
-        padding-top: 70px; /* Menos espacio en móvil */
+        padding-top: 70px; 
     }
     
     .profile-container {

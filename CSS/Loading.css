@@ -19,7 +19,7 @@
 
 .loading-text {
     position: absolute;
-    margin-top: 20px; /* Reducido de 120px a 80px para acercar el texto a la imagen */
+    margin-top: 20px;
     color: #007bff;
     font-weight: bold;
 }

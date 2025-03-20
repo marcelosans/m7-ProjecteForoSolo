@@ -10,8 +10,8 @@
 body
 {  
     background-image: url('https://i.redd.it/lw2ohrht0xsc1.gif');
-    background-size: cover; /* Asegura que la imagen cubra todo el fondo */
-    background-repeat: repeat; /* Evita que la imagen se repita *//* Centra la imagen */
+    background-size: cover; 
+    background-repeat: repeat;
     font-family: 'Roboto', sans-serif;
     height: 100vh;
     display: flex;

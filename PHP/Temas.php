@@ -6,6 +6,7 @@
     <title>Forosolo || Temas</title>
     <link rel="stylesheet" href="../CSS/Navbar.css">
     <link rel="stylesheet" href="../CSS/Temas.css">
+    <link rel="stylesheet" href="../CSS/Loading.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -18,6 +19,8 @@
             <a href="HomePage.php" class="logo">
                 <img src="../Recursos/img/logo-forosolo.png" alt="Logo">
             </a>
+            
+            <div id="content">
 
             <!-- Menú Desktop -->
             <nav class="nav-links">
@@ -40,6 +43,7 @@
     </header>
 
     <!-- Menú Móvil -->
+     
     <div class="mobile-menu">
         <button class="close-menu">&times;</button>
         <div class="mobile-content">
@@ -53,6 +57,13 @@
                 <a href="#">Mi Perfil</a>
                 <a href="#">Cerrar Sesión</a>
             </div>
+        </div>
+    </div>
+
+    <div id="loader" class="loader-overlay">
+        <div>
+            <img id="loading-gif" src="" alt="Cargando..." class="loading-gif">
+            <div class="loading-text">CARGANDO...</div>
         </div>
     </div>
 
@@ -185,7 +196,7 @@
         </div>
     </main>
 
-    
+    <script src="../Js/Loading.js"></script>
 
     <script>
        document.addEventListener("DOMContentLoaded", function () {
@@ -214,5 +225,7 @@
         */
     });
     </script>
+    
+
 </body>
 </html>

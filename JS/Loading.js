@@ -1,4 +1,3 @@
-// Función para manejar el efecto de carga con GIF aleatorio
 function handleLoading() {
     const loader = document.getElementById('loader');
     const content = document.getElementById('content');

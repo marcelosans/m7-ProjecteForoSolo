@@ -86,9 +86,60 @@ h2 {
 
 .error-message {
     color: red;
-    margin-bottom: 1rem;
+    text-align: center;
 }
 
 .success-message {
     color: green;
+    text-align: center;
+    font-weight: bold;
+
+}
+
+input.error-border {
+    border: 2px solid red !important;
+    outline-color: red;
+    font-weight: bold;
+
+}
+
+input.success-border {
+    border: 2px solid green !important;
+    outline-color: green;
+}
+
+.weak-password {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+}
+
+.strong-password {
+    color: green;
+    text-align: center;
+    font-weight: bold;
+}
+
+.password-strength {
+    display: none;
+    text-align: center;
+    font-weight: bold;
+}
+
+.password-field {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px; 
+    top: 50%; 
+    background: white;
+    border: none;
+    cursor: pointer;
+    color: #007bff;
+    font-size: 0.8rem;
+    z-index: 2;
+    padding: 2px 8px;
+    border-radius: 3px;
 }

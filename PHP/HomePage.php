@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forosolo || Inicio</title>
     <link rel="stylesheet" href="../CSS/Navbar.css">
+    <link rel="stylesheet" href="../CSS/Loading.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
@@ -12,9 +13,18 @@
 <body>
 
     <header class="navbar">
+    <div id="loader" class="loader-overlay">
+        <div>
+            <img id="loading-gif" src="" alt="Cargando..." class="loading-gif">
+            <div class="loading-text">CARGANDO...</div>
+        </div>
+    </div>
+
+    <div class="login-container">
+        <div id="content">
         <div class="container">
             <!-- Logo -->
-            <a href="../HomePage.php" class="logo">
+            <a href="../PHP/HomePage.php" class="logo">
                 <img src="../Recursos/img/logo-forosolo.png" alt="Logo">
             </a>
 
@@ -54,27 +64,30 @@
             </div>
         </div>
     </div>
-<script>
-   document.addEventListener("DOMContentLoaded", function () {
-    const menuToggle = document.querySelector(".menu-toggle");
-    const mobileMenu = document.querySelector(".mobile-menu");
-    const closeMenu = document.querySelector(".close-menu");
-    const mobileProfileToggle = document.getElementById("mobile-profile-toggle");
-    const mobileDropdown = document.getElementById("mobile-dropdown");
 
-    menuToggle.addEventListener("click", function () {
-        mobileMenu.classList.add("active");
-    });
+    <script src="../Js/Loading.js"></script>
 
-    closeMenu.addEventListener("click", function () {
-        mobileMenu.classList.remove("active");
-    });
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuToggle = document.querySelector(".menu-toggle");
+        const mobileMenu = document.querySelector(".mobile-menu");
+        const closeMenu = document.querySelector(".close-menu");
+        const mobileProfileToggle = document.getElementById("mobile-profile-toggle");
+        const mobileDropdown = document.getElementById("mobile-dropdown");
 
-    // Mostrar/ocultar dropdown en móvil
-    mobileProfileToggle.addEventListener("click", function () {
-        mobileDropdown.classList.toggle("active");
+        menuToggle.addEventListener("click", function () {
+            mobileMenu.classList.add("active");
+        });
+
+        closeMenu.addEventListener("click", function () {
+            mobileMenu.classList.remove("active");
+        });
+
+        // Mostrar/ocultar dropdown en móvil
+        mobileProfileToggle.addEventListener("click", function () {
+            mobileDropdown.classList.toggle("active");
+        });
     });
-});
-</script>
+    </script>
 </body>
 </html>

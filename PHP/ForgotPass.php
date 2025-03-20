@@ -94,12 +94,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Recuperar contrasenya - ForoSolo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../CSS/NewPass.css">
+    <link rel="stylesheet" href="../CSS/Loading.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
 </head>
 <body>
+<div id="loader" class="loader-overlay">
+        <div>
+            <img id="loading-gif" src="" alt="Cargando..." class="loading-gif">
+            <div class="loading-text">CARGANDO...</div>
+        </div>
+    </div>
+        
     <div class="login-container">
+        <div id="content">
         <img src="../Recursos/img/logo-forosolo.png" alt="logo-foro-solo">
         
         <form action="ForgotPass.php" method="POST">
@@ -121,5 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p><a href="Login.php">Tornar a iniciar sessió</a></p>
         </div>
     </div>
+    <script src="../Js/Loading.js"></script>
+            
 </body>
 </html>

@@ -41,7 +41,7 @@ function checkPasswordStrength() {
     const password = passwordField.value;
     const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
 
-    passwordStrength.style.display = "block"; // Asegurar que el div está visible
+    passwordStrength.style.display = "block"; 
     passwordStrength.classList.remove("weak-password", "strong-password");
 
     if (strongPassword.test(password)) {

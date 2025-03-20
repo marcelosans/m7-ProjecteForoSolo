@@ -108,10 +108,16 @@ h2 {
 
 .error-message {
     color: red;
+    text-align: center;
+    font-weight: bold;
+
 }
 
 .success-message {
     color: green;
+    text-align: center;
+    font-weight: bold;
+
 }
 
 input.error-border {
@@ -131,7 +137,6 @@ input.success-border {
     font-weight: bold;
 }
 
-/* Estilo para contraseñas fuertes */
 .strong-password {
     color: green;
     text-align: center;
