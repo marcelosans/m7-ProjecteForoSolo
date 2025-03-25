@@ -136,14 +136,16 @@ $registrationHandler->handleRegistration();
                     <div id="password-strength" class="password-strength"></div>
                 </div>
 
+                <?php if (!empty($registrationHandler->getMessage())): ?>
+                <div class="message <?php echo $registrationHandler->getMessageClass(); ?>">
+                    <?php echo $registrationHandler->getMessage(); ?>
+                </div>
+                <?php endif; ?>
+
                 <button type="submit" class="btn">Registrar-se</button>
             </form>
 
-            <?php if (!empty($registrationHandler->getMessage())): ?>
-            <div class="message <?php echo $registrationHandler->getMessageClass(); ?>">
-                <?php echo $registrationHandler->getMessage(); ?>
-            </div>
-            <?php endif; ?>
+            
 
             <div class="options">
                 <p>Ja tens compte? <a href="login.php">Inicia sessió</a></p>

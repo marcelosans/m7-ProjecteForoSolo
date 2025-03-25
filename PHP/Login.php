@@ -87,12 +87,15 @@
                         <button type="button" id="toggle-password" class="toggle-password">Mostrar</button>
                     </div>
                 </div>
+
+                <?php if (!empty($message)): ?>
+                    <div class="<?php echo $messageClass; ?>"><?php echo $message; ?></div>
+                <?php endif; ?>
+
                 <button type="submit" class="btn">Iniciar Sesión</button>
             </form>
             
-            <?php if (!empty($message)): ?>
-                <div class="<?php echo $messageClass; ?>"><?php echo $message; ?></div>
-            <?php endif; ?>
+            
             
             <div class="options">
                 <a href="ForgotPass.php">¿No recuerdas tu contraseña?</a>
