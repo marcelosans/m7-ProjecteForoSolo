@@ -1,17 +1,28 @@
 <?php
-session_start(); 
+session_start();
+
+// Redirigir al login si no hay sesión iniciada
 if (!isset($_SESSION['email'])) {
-    header('Location: Login.php'); 
+    header('Location: Login.php');
     exit;
 }
 
 require_once('ConectaDB.php');
-         $sql = 'SELECT * FROM `users` WHERE mail = :email ';
 
+// Obtener datos del usuario actual
+$sql = 'SELECT * FROM `users` WHERE mail = :email';
 $preparada = $db->prepare($sql);
 $preparada->bindParam(':email', $_SESSION['email']);
 $preparada->execute();
 $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
+
+// Obtener publicaciones con información del usuario
+$sql = "SELECT p.*, u.username, u.profile_image 
+        FROM Publicacio p
+        JOIN Users u ON p.idUser = u.iduser";
+$preparada = $db->prepare($sql);
+$preparada->execute();
+$publicaciones = $preparada->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -28,116 +39,66 @@ $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
 </head>
 <body>
 
-<header class="navbar">
-        <div class="container">
-            <!-- Logo -->
-            <a href="HomePage.php" class="logo">
-                <img src="../Recursos/img/logo-forosolo.png" alt="Logo">
-            </a>
+    <div class="login-container">
+        <div id="content">
+            <header class="navbar">
+                <div class="container">
+                    <a href="HomePage.php" class="logo">
+                        <img src="../Recursos/img/logo-forosolo.png" alt="Logo">
+                    </a>
 
-            <!-- Menú Desktop -->
-            <nav class="nav-links">
-                <a href="#">Inicio</a>
-                <a href="./Temas.php">Temas</a>
-
-                <!-- Dropdown Perfil -->
-                <div class="profile">
-                <img src="<?= !empty($usuario['profile_image']) ?  $usuario['profile_image'] : '../profile/profile.png' ?>" alt="Imagen de perfil">
-                    <ul class="dropdown">
-                        <li><a href="./Perfil.php">Mi Perfil</a></li>
-                        <li><a href="cerrarSesion.php">Cerrar Sesión</a></li>
-                    </ul>
+                    <nav class="nav-links">
+                        <a href="#">Inicio</a>
+                        <a href="./Temas.php">Temas</a>
+                        <div class="profile">
+                            <img src="<?= !empty($usuario['profile_image']) ? $usuario['profile_image'] : '../profile/profile.png' ?>" alt="Imagen de perfil">
+                            <ul class="dropdown">
+                                <li><a href="./Perfil.php">Mi Perfil</a></li>
+                                <li><a href="cerrarSesion.php">Cerrar Sesión</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <div class="menu-toggle">&#9776;</div>
                 </div>
-            </nav>
+            </header>
 
-            <!-- Botón Menú Móvil -->
-            <div class="menu-toggle">&#9776;</div>
-        </div>
-    </header>
-
-    <!-- Menú Móvil -->
-    <div class="mobile-menu">
-        <button class="close-menu">&times;</button>
-        <div class="mobile-content">
-            <img src="../Recursos/img/logo-forosolo.png" alt="Logo" class="mobile-logo">
-            <a href="">Inicio</a>
-            <a href="./Temas.php">Temas</a>
-
-            <!-- Dropdown en móvil -->
-            <div class="mobile-profile">
-            <img src="<?= !empty($usuario['profile_image']) ?  $usuario['profile_image'] : '../profile/profile.png' ?>" alt="Imagen de perfil">
-                <a href="./Perfil.php">Mi Perfil</a>
-                <a href="cerrarSesion.php">Cerrar Sesión</a>
+            <div class="mobile-menu">
+                <button class="close-menu">&times;</button>
+                <div class="mobile-content">
+                    <img src="../Recursos/img/logo-forosolo.png" alt="Logo" class="mobile-logo">
+                    <a href="">Inicio</a>
+                    <a href="./Temas.php">Temas</a>
+                    <div class="mobile-profile">
+                        <img src="<?= !empty($usuario['profile_image']) ? $usuario['profile_image'] : '../profile/profile.png' ?>" alt="Imagen de perfil">
+                        <a href="./Perfil.php">Mi Perfil</a>
+                        <a href="cerrarSesion.php">Cerrar Sesión</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-<script>
-   document.addEventListener("DOMContentLoaded", function () {
-    const menuToggle = document.querySelector(".menu-toggle");
-    const mobileMenu = document.querySelector(".mobile-menu");
-    const closeMenu = document.querySelector(".close-menu");
-    const mobileProfileToggle = document.getElementById("mobile-profile-toggle");
-    const mobileDropdown = document.getElementById("mobile-dropdown");
-
-    menuToggle.addEventListener("click", function () {
-        mobileMenu.classList.add("active");
-    });
-
-    closeMenu.addEventListener("click", function () {
-        mobileMenu.classList.remove("active");
-    });
-
-    // Mostrar/ocultar dropdown en móvil
-    mobileProfileToggle.addEventListener("click", function () {
-        mobileDropdown.classList.toggle("active");
-    });
-});
-</script>
 
 
 
-<div class="publicacions">
-
-
-<?php
-require_once('ConectaDB.php');
-
-$sql = "SELECT p.*, u.username, u.profile_image 
-        FROM Publicacio p
-        JOIN Users u ON p.idUser = u.iduser";
-
-$preparada = $db->prepare($sql);
-$preparada->execute();
-$publicaciones = $preparada->fetchAll(PDO::FETCH_ASSOC);
-?>
-
-<!-- Formulario de Búsqueda -->
-
-<?php foreach ($publicaciones as $publicacio): ?>
-    <div class="post-container">
-        <div class="post-header">
-            <div class="user-info">
-                <img src="<?= !empty($publicacio['profile_image']) ? 'data:image/jpeg;base64,' . $publicacio['profile_image'] : 'default-profile.png' ?>" alt="Usuario">
-                <span class="username"><?= htmlspecialchars($publicacio['username']) ?></span>
+    <div class="publicacions">
+        <?php foreach ($publicaciones as $publicacio): ?>
+            <div class="post-container">
+                <div class="post-header">
+                    <div class="user-info">
+                        <img src="<?= !empty($publicacio['profile_image']) ? 'data:image/jpeg;base64,' . htmlspecialchars($publicacio['profile_image']) : 'default-profile.png' ?>" alt="Usuario">
+                        <span class="username"> <?= htmlspecialchars($publicacio['username']) ?> </span>
+                    </div>
+                    <span class="date">Fecha: <?= htmlspecialchars($publicacio['dataPub']) ?></span>
+                </div>
+                <div class="post-content">
+                    <p><?= nl2br(htmlspecialchars($publicacio['Contingut'])) ?></p>
+                </div>
+                <button class="reply-button">Responder</button>
             </div>
-            <span class="date">Fecha: <?= htmlspecialchars($publicacio['dataPub']) ?></span>
-        </div>
-        <div class="post-content">
-            <p><?= nl2br(htmlspecialchars($publicacio['Contingut'])) ?></p>
-        </div>
-        <button class="reply-button">Responder</button>
+        <?php endforeach; ?>
     </div>
-<?php endforeach; ?>
 
-
-</div>
-
-<!-- Button trigger modal -->
-
-
-
-
-
-
+    <script src="../Js/NavBar.js"></script>
+    
 </body>
 </html>

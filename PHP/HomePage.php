@@ -29,11 +29,6 @@ $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
 <body>
 
 <header class="navbar">
-        <div class="container">
-            <!-- Logo -->
-            <a href="HomePage.php" class="logo">
-
-   
     <div id="loader" class="loader-overlay">
         <div>
             <img id="loading-gif" src="" alt="Cargando..." class="loading-gif">
@@ -87,32 +82,7 @@ $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
     </div>
 
     <script src="../Js/Loading.js"></script>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const menuToggle = document.querySelector(".menu-toggle");
-        const mobileMenu = document.querySelector(".mobile-menu");
-        const closeMenu = document.querySelector(".close-menu");
-        const mobileProfileToggle = document.getElementById("mobile-profile-toggle");
-        const mobileDropdown = document.getElementById("mobile-dropdown");
-
-        menuToggle.addEventListener("click", function () {
-            mobileMenu.classList.add("active");
-        });
-
-        closeMenu.addEventListener("click", function () {
-            mobileMenu.classList.remove("active");
-        });
-
-        // Mostrar/ocultar dropdown en móvil
-        mobileProfileToggle.addEventListener("click", function () {
-            mobileDropdown.classList.toggle("active");
-        });
-    });
-
-
-</script>
-
+    <script src="../Js/NavBar.js"></script>
 
 </body>
 </html>

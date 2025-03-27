@@ -17,7 +17,7 @@ function handleLoading() {
     loader.classList.remove('hidden');
     content.style.display = 'none';
     
-    // Ocultar loader y mostrar contenido después de 1.5 segundos
+    // Ocultar loader y mostrar contenido después de 0.5 segundos
     setTimeout(function() {
         loader.classList.add('hidden');
         content.style.display = 'block';
