@@ -76,6 +76,8 @@ h2 {
 
 .options a:hover {
     text-decoration: underline;
+    text-align: center;
+
 }
 
 .message {
@@ -86,9 +88,37 @@ h2 {
 
 .error-message {
     color: red;
-    margin-bottom: 1rem; 
+    text-align: center;
+    font-weight: bold;
+    margin-top: 1rem;
 }
 
 .success-message {
     color: green;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.password-field {
+    position: relative;
+}
+
+.password-field input[type="password"],
+.password-field input[type="text"] {
+    padding-right: 80px; /* Make room for the toggle button */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 2px;
+    top: 14px; /* Position from the top, aligned with the input */
+    background: white;
+    border: none;
+    cursor: pointer;
+    color: #007bff;
+    font-size: 0.8rem;
+    z-index: 2;
+    padding: 2px 8px;
+    border-radius: 3px;
 }

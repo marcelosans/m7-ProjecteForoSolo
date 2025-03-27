@@ -1,66 +1,76 @@
-const newPasswordField = document.getElementById('new_password');
-const confirmPasswordField = document.getElementById('confirm_password');
-const passwordStrength = document.getElementById('password-strength');
-const togglePasswordButton = document.getElementById('toggle-password');
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordField = document.getElementById('new_password');
+    const verifyPasswordField = document.getElementById('confirm_password');
+    const passwordStrength = document.getElementById('password-strength');
+    const togglePasswordButton = document.getElementById('toggle-password');
 
-// Verificar si las contraseñas coinciden
-function checkPasswordsMatch() {
-    const password = newPasswordField.value;
-    const confirmPassword = confirmPasswordField.value;
-    
-    newPasswordField.classList.remove('error-border', 'success-border');
-    confirmPasswordField.classList.remove('error-border', 'success-border');
-    
-    if (confirmPassword === '') {
-        return; 
-    } else if (password !== confirmPassword) {
-        newPasswordField.classList.add('error-border');
-        confirmPasswordField.classList.add('error-border');
-    } else {
-        newPasswordField.classList.add('success-border');
-        confirmPasswordField.classList.add('success-border');
-    }
-}
-
-// Mostrar/ocultar la contraseña
-function togglePasswordVisibility() {
-    if (newPasswordField.type === 'password') {
-        newPasswordField.type = 'text';
-        confirmPasswordField.type = 'text';
-        togglePasswordButton.textContent = 'Ocultar';
-    } else {
-        newPasswordField.type = 'password';
-        confirmPasswordField.type = 'password';
-        togglePasswordButton.textContent = 'Mostrar';
-    }
-}
-
-function checkPasswordStrength() {
-    const password = newPasswordField.value;
-    const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
-    
-    if (password.length > 0) {
-        passwordStrength.style.display = "block";
-    } else {
-        passwordStrength.style.display = "none";
+    // Skip if any elements are missing
+    if (!passwordField || !verifyPasswordField || !passwordStrength || !togglePasswordButton) {
         return;
     }
-    
-    passwordStrength.classList.remove("weak-password", "strong-password");
-    
-    if (strongPassword.test(password)) {
-        passwordStrength.textContent = "La teva contrasenya és segura";
-        passwordStrength.classList.add("strong-password");
-    } else {
-        passwordStrength.textContent = "Afegeix una contrasenya com aquesta (Fel1p$112)";
-        passwordStrength.classList.add("weak-password");
-    }
-}
 
-// Eventos
-newPasswordField.addEventListener('input', () => {
-    checkPasswordsMatch();
-    checkPasswordStrength();
+    // Verificar si las contraseñas coinciden
+    function checkPasswordsMatch() {
+        const password = passwordField.value;
+        const verifyPassword = verifyPasswordField.value;
+        
+        passwordField.classList.remove('error-border', 'success-border');
+        verifyPasswordField.classList.remove('error-border', 'success-border');
+        
+        if (verifyPassword === '') {
+            return; // No hacer nada si el campo está vacío
+        } else if (password !== verifyPassword) {
+            passwordField.classList.add('error-border');
+            verifyPasswordField.classList.add('error-border');
+        } else {
+            passwordField.classList.add('success-border');
+            verifyPasswordField.classList.add('success-border');
+        }
+    }
+
+    // Mostrar/ocultar la contraseña
+    function togglePasswordVisibility() {
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            verifyPasswordField.type = 'text';
+            togglePasswordButton.textContent = ' Ocultar ';
+        } else {
+            passwordField.type = 'password';
+            verifyPasswordField.type = 'password';
+            togglePasswordButton.textContent = ' Mostrar ';
+        }
+    }
+
+    // Verificar la fortaleza de la contraseña
+    function checkPasswordStrength() {
+        const password = passwordField.value;
+        const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+        
+        if (password.length === 0) {
+            passwordStrength.style.display = "none";
+            return;
+        }
+        
+        passwordStrength.style.display = "block";
+        
+        passwordStrength.classList.remove("weak-password", "strong-password");
+        
+        if (strongPassword.test(password)) {
+            passwordStrength.textContent = "La teva contrasenya és segura";
+            passwordStrength.classList.add("strong-password");
+        } else {
+            passwordStrength.textContent = "Afegeix una contrasenya com aquesta (Fel1p$112)";
+            passwordStrength.classList.add("weak-password");
+        }
+    }
+
+    // Eventos
+    passwordField.addEventListener('input', () => {
+        checkPasswordsMatch();
+        checkPasswordStrength();
+    });
+    
+    verifyPasswordField.addEventListener('input', checkPasswordsMatch);
+    
+    togglePasswordButton.addEventListener('click', togglePasswordVisibility);
 });
-confirmPasswordField.addEventListener('input', checkPasswordsMatch);
-togglePasswordButton.addEventListener('click', togglePasswordVisibility);

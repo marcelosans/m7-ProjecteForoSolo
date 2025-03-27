@@ -9,7 +9,7 @@
 
 body {
     background-image: url('https://i.pinimg.com/originals/1b/83/dc/1b83dce6c2a59c92d2dfdd14df85c377.gif');
-    background-size: cover; 
+    background-size: cover;
     background-repeat: repeat;
     font-family: 'Roboto', sans-serif;
     height: 120vh;
@@ -20,9 +20,9 @@ body {
 
 .login-container {
     width: 100%;
-    max-width: 500px; 
-    background-color: #949492; 
-    padding: 2.5em; 
+    max-width: 500px;
+    background-color: #949492;
+    padding: 2.5em;
     border-radius: 15px;
 }
 
@@ -93,14 +93,12 @@ h2 {
     color: green;
     text-align: center;
     font-weight: bold;
-
 }
 
 input.error-border {
     border: 2px solid red !important;
     outline-color: red;
     font-weight: bold;
-
 }
 
 input.success-border {
@@ -126,14 +124,20 @@ input.success-border {
     font-weight: bold;
 }
 
+/* Fixed positioning for password field and toggle button */
 .password-field {
     position: relative;
 }
 
+.password-field input[type="password"],
+.password-field input[type="text"] {
+    padding-right: 80px; /* Make room for the toggle button */
+}
+
 .toggle-password {
     position: absolute;
-    right: 10px; 
-    top: 50%; 
+    right: 2px;
+    top: 32px; /* Position from the top, aligned with the input */
     background: white;
     border: none;
     cursor: pointer;
