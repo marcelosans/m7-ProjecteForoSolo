@@ -118,6 +118,31 @@ $temas = $preparada->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                         </div>
                     <?php endforeach; ?>
+                        <div class="stat">
+                            <span class="stat-icon">💬</span>
+                            <span class="stat-value"><?php
+                      
+                        $numPublicaciones = "SELECT COUNT(P.idPublicacio) AS totalPublicaciones
+                                                FROM Tema T
+                                                LEFT JOIN Hilo H ON T.nomVideojoc = H.nomVideojoc
+                                                LEFT JOIN Publicacio P ON H.idHilo = P.idHilo
+                                                WHERE T.nomVideojoc = :nomVideojoc";
+
+                        $preparada = $db->prepare($numPublicaciones);
+                        $preparada->bindParam(':nomVideojoc', $tema['nomVideojoc'], PDO::PARAM_INT);
+                        $preparada->execute();
+                        $resultado = $preparada->fetch(PDO::FETCH_ASSOC);
+
+                        $totalPublicaciones = $resultado['totalPublicaciones'];
+
+                       
+
+                        echo "Publicaciones: $totalPublicaciones";
+                          ?></span>
+                        </div>
+                        
+                    </div>
+                    <a href="<?php echo '../PHP/hilos-page.php?tema='.  $tema['nomVideojoc'] ?>" class="btn-ver-tema">Ver tema</a>
                 </div>
                 
                 <aside class="sidebar">

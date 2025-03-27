@@ -1,27 +1,27 @@
 <?php
     session_start();
-    
+
     if (isset($_SESSION['email'])) {
         header('Location: Index.php');
         exit;
     }
-    
+
     $message      = ""; // Variable para almacenar mensajes
     $messageClass = ""; // Variable para almacenar la clase del mensaje
-    
+
     // Procesar el formulario cuando se envía
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         require_once 'ConectaDB.php';
-        
+
         $email  = $_POST['email'];
         $contra = $_POST['password'];
-        
+
         $sql = 'SELECT * FROM `users` WHERE (mail = :email OR username = :email) AND activeU = 1';
-        
+
         $preparada = $db->prepare($sql);
         $preparada->bindParam(':email', $email);
         $preparada->execute();
-        
+
         if ($preparada->rowCount() == 1) {
             $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
             if (password_verify($contra, $usuario['passHash'])) {
@@ -73,7 +73,7 @@
             <div class="loading-text">CARGANDO...</div>
         </div>
     </div>
-    
+
     <div class="login-container">
         <div id="content">
             <img src="../Recursos/img/logo-forosolo.png" alt="logo-foro-solo">
@@ -82,21 +82,17 @@
                     <div class="form-group">
                         <input type="text" id="email" name="email" placeholder="Email/Usuario" required>
                     </div>
-                    <div class="form-group password-field">
+                    <div class="form-group">
                         <input type="password" id="password" name="password" placeholder="Contraseña" required>
-                        <button type="button" id="toggle-password" class="toggle-password">Mostrar</button>
                     </div>
                 </div>
-
-                <?php if (!empty($message)): ?>
-                    <div class="<?php echo $messageClass; ?>"><?php echo $message; ?></div>
-                <?php endif; ?>
-
                 <button type="submit" class="btn">Iniciar Sesión</button>
             </form>
-            
-            
-            
+
+            <?php if (! empty($message)): ?>
+                <div class="<?php echo $messageClass; ?>"><?php echo $message; ?></div>
+            <?php endif; ?>
+
             <div class="options">
                 <a href="ForgotPass.php">¿No recuerdas tu contraseña?</a>
             </div>
@@ -104,10 +100,43 @@
                 <a href="Register.php">Regístrate</a>
             </div>
         </div>
-    </div>
+
+      
+    </form>
+
+<?php
+require_once('ConectaDB.php');
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $contra = $_POST['password'];
+
+    $sql = 'SELECT * FROM `users` WHERE (mail = :email OR username = :email) AND activeU = 1';
+
+    $preparada = $db->prepare($sql);
+    $preparada->bindParam(':email', $email);
+    $preparada->execute();
+
+    if ($preparada->rowCount() == 1) {
+        $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
+        if (password_verify($contra, $usuario['passHash'])) {
+            session_start();
+            $_SESSION['email'] = $usuario['mail'];
+            header('Location: HomePage.php');
+            exit;
+        } else {
+            $message = 'La contraseña es incorrecta.';
+            $messageClass = 'error-message';
+        }
+    } else {
+        $message = 'El usuario no existe.';
+        $messageClass = 'error-message';
+    }
+}
+?>
+
     
+
     <script src="../Js/Loading.js"></script>
-    <script src="../Js/Login.js"></script>
-    
 </body>
 </html>
