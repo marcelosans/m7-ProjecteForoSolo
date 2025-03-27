@@ -158,12 +158,9 @@ $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
                         echo "Publicaciones: $totalPublicaciones";
                           ?></span>
                         </div>
-                        <div class="stat">
-                            <span class="stat-icon">🔥</span>
-                            <span class="stat-value">Muy activo</span>
-                        </div>
+                        
                     </div>
-                    <a href="#" class="btn-ver-tema">Ver tema</a>
+                    <a href="<?php echo '../PHP/hilos-page.php?tema='.  $tema['nomVideojoc'] ?>" class="btn-ver-tema">Ver tema</a>
                 </div>
             </div>
         <?php endforeach; ?>

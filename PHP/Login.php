@@ -101,7 +101,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn">Iniciar Sesión</button>
+      
     </form>
 
 <?php
@@ -135,13 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-    <?php if (!empty($message)): ?>
-        <div class="<?php echo $messageClass; ?>"><?php echo $message; ?></div>
-    <?php endif; ?>
-
-    <div class="options">
-        <a href="ForgotPass.php">¿No recuerdas tu contraseña?</a>
-    </div>
+    
 
     <script src="../Js/Loading.js"></script>
 </body>
