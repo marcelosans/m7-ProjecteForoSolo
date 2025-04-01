@@ -1,0 +1,25 @@
+.welcome-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 60px); /* Ajusta según el tamaño del navbar */
+    background-image: url('https://i.redd.it/lw2ohrht0xsc1.gif');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    color: white;
+    font-family: 'Pixelify Sans', sans-serif;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; 
+}
+
+.welcome-container {
+    height: 100vh;
+    text-shadow: 2px 2px 0px black, -2px -2px 0px black, -2px 2px 0px black, 2px -2px 0px black;
+
+}

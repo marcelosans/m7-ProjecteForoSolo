@@ -14,6 +14,7 @@ $preparada->execute();
 $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
 ?>
 
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -22,6 +23,7 @@ $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
     <title>Forosolo || Inicio</title>
     <link rel="stylesheet" href="../CSS/Navbar.css">
     <link rel="stylesheet" href="../CSS/Loading.css">
+    <link rel="stylesheet" href="../CSS/HomePage.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
@@ -46,7 +48,7 @@ $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
 
             <!-- Menú Desktop -->
             <nav class="nav-links">
-                <a href="#">Inicio</a>
+                <a href="./HomePage.php">Inicio</a>
                 <a href="./Temas.php">Temas</a>
 
                 <!-- Dropdown Perfil -->
@@ -62,8 +64,11 @@ $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
             <!-- Botón Menú Móvil -->
             <div class="menu-toggle">&#9776;</div>
         </div>
+        
+    </div>
     </header>
 
+    
     <!-- Menú Móvil -->
     <div class="mobile-menu">
         <button class="close-menu">&times;</button>
@@ -80,6 +85,14 @@ $usuario = $preparada->fetch(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
+
+    <div class="welcome-container">
+        <h1>Bienvenido, <?= htmlspecialchars($_SESSION['email']); ?> </h1>
+    </div>
+
+    
+
+    
 
     <script src="../Js/Loading.js"></script>
     <script src="../Js/NavBar.js"></script>

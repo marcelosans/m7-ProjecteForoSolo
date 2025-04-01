@@ -38,7 +38,7 @@ $temas = $preparada->fetchAll(PDO::FETCH_ASSOC);
     
     <div id="loader" class="loader-overlay">
         <div>
-            <img id="loading-gif" src="" alt="Cargando..." class="loading-gif">
+            <img id="loading-gif" src="../Recursos/img/loading.gif" alt="Cargando..." class="loading-gif">
             <div class="loading-text">CARGANDO...</div>
         </div>
     </div>
@@ -50,7 +50,7 @@ $temas = $preparada->fetchAll(PDO::FETCH_ASSOC);
             </a>
             <div id="content">
                 <nav class="nav-links">
-                    <a href="#">Inicio</a>
+                    <a href="./HomePage.php">Inicio</a>
                     <a href="./Temas.php">Temas</a>
                     <div class="profile">
                         <img src="<?= !empty($usuario['profile_image']) ? $usuario['profile_image'] : '../profile/profile.png' ?>" alt="Imagen de perfil">
@@ -79,8 +79,10 @@ $temas = $preparada->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
     
-    <h1>TEMAS</h1>
     <main class="page-content">
+        <div class="titulo">
+        <h1>TEMAS</h1>
+        </div>
         <div class="container main-container">
             <div class="content-layout">
                 <div class="temas-container">
@@ -94,7 +96,16 @@ $temas = $preparada->fetchAll(PDO::FETCH_ASSOC);
                                 <div class="tema-stats">
                                     <div class="stat">
                                         <span class="stat-icon">📝</span>
-                                        <span class="stat-value">20 hilos</span>
+                                        <span class="stat-value">
+                                            <?php 
+                                                  $sqlHilosCount = "SELECT COUNT(*) AS totalHilos FROM Hilo WHERE nomVideojoc = :tema";
+                                                  $prepHilos = $db->prepare($sqlHilosCount);
+                                                  $prepHilos->bindParam(':tema', $tema['nomVideojoc'], PDO::PARAM_STR);
+                                                  $prepHilos->execute();
+                                                  $hilosResult = $prepHilos->fetch(PDO::FETCH_ASSOC);
+                                                  echo "Hilos: " . ($hilosResult['totalHilos'] ?? 0);
+                                            ?>
+                                        </span>
                                     </div>
                                     <div class="stat">
                                         <span class="stat-icon">💬</span>
@@ -114,34 +125,10 @@ $temas = $preparada->fetchAll(PDO::FETCH_ASSOC);
                                         <span class="stat-value">Muy activo</span>
                                     </div>
                                 </div>
-                                <a href="<?php echo '../PHP/hilos-page.php?tema='.  $tema['nomVideojoc'] ?>" class="btn-ver-tema">Ver tema</a>
+                                <a href="<?php echo '../PHP/hilos-page.php?tema='.  urlencode($tema['nomVideojoc']) ?>" class="btn-ver-tema">Ver tema</a>
                             </div>
                         </div>
                     <?php endforeach; ?>
-                        <div class="stat">
-                            <span class="stat-icon">💬</span>
-                            <span class="stat-value"><?php
-                      
-                        $numPublicaciones = "SELECT COUNT(P.idPublicacio) AS totalPublicaciones
-                                                FROM Tema T
-                                                LEFT JOIN Hilo H ON T.nomVideojoc = H.nomVideojoc
-                                                LEFT JOIN Publicacio P ON H.idHilo = P.idHilo
-                                                WHERE T.nomVideojoc = :nomVideojoc";
-
-                        $preparada = $db->prepare($numPublicaciones);
-                        $preparada->bindParam(':nomVideojoc', $tema['nomVideojoc'], PDO::PARAM_INT);
-                        $preparada->execute();
-                        $resultado = $preparada->fetch(PDO::FETCH_ASSOC);
-
-                        $totalPublicaciones = $resultado['totalPublicaciones'];
-
-                       
-
-                        echo "Publicaciones: $totalPublicaciones";
-                          ?></span>
-                        </div>
-                        
-                    </div>
                 </div>
                 
                 <aside class="sidebar">
