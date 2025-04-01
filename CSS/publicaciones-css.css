@@ -208,7 +208,7 @@ body {
     margin-top: auto;
 }
 
-.btn-citar, .btn-editar {
+.btn-citar, .btn-editar,.btn-eliminar{
     padding: 6px 12px;
     border: none;
     border-radius: 4px;
@@ -232,9 +232,20 @@ body {
     color: white;
 }
 
+.btn-eliminar {
+    background-color: red;
+    color: white;
+}
+
+
 .btn-editar:hover {
     background-color: var(--hover-color);
 }
+
+.btn-eliminar:hover {
+    background-color: rgba(255, 0, 0, 0.646);
+}
+
 
 .no-publicaciones {
     padding: 30px;

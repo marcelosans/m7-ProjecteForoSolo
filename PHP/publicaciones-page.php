@@ -53,11 +53,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publicar'])) {
         
         if ($prepInsert->execute()) {
             // Redirigir para evitar reenvío de formulario
-            header("Location: Publicaciones.php?hilo=$idHilo");
+            header("Location: publicaciones-page.php?hilo=$idHilo");
             exit;
         }
     }
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_publicacion'])) {
+    $idPublicacion = $_POST['id_publicacion'];
+    $idHilo = $_POST['id_hilo'];
+    $sqlVerificar = "SELECT iduser FROM Publicacio WHERE idPublicacio = :idPublicacion";
+    $prepVerificar = $db->prepare($sqlVerificar);
+    $prepVerificar->bindParam(':idPublicacion', $idPublicacion);
+    $prepVerificar->execute();
+    $publicacionData = $prepVerificar->fetch(PDO::FETCH_ASSOC);
+    
+    if ($publicacionData && $publicacionData['iduser'] == $usuario['iduser']) {
+        $sqlEliminar = "DELETE FROM Publicacio WHERE idPublicacio = :idPublicacion";
+        $prepEliminar = $db->prepare($sqlEliminar);
+        $prepEliminar->bindParam(':idPublicacion', $idPublicacion);
+        
+        if ($prepEliminar->execute()) {
+            header("Location: publicaciones-page.php?hilo=$idHilo");
+            exit;
+        }
+    } else {
+        header("Location: publicaciones-page.php?hilo=$idHilo");
+        exit;
+    }
+}
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -131,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publicar'])) {
 <div class="breadcrumbs">
     <div class="container">
         <a href="Temas.php">Temas</a> &gt; 
-        <a href="Hilos.php?tema=<?= urlencode($hiloDetalle['nomVideojoc']) ?>"><?= htmlspecialchars($hiloDetalle['nomVideojoc']) ?></a> &gt; 
+        <a href="hilos-page.php?tema=<?= urlencode($hiloDetalle['nomVideojoc']) ?>"><?= htmlspecialchars($hiloDetalle['nomVideojoc']) ?></a> &gt; 
         <span><?= htmlspecialchars($hiloDetalle['Titol']) ?></span>
     </div>
 </div>
@@ -189,10 +217,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publicar'])) {
                             <?= nl2br(htmlspecialchars($publicacion['Contingut'])) ?>
                         </div>
                         <div class="publicacion-footer">
-                            <button class="btn-citar">Citar</button>
                             <?php if ($publicacion['iduser'] == $usuario['iduser']): ?>
-                                <button class="btn-editar">Editar</button>
+                                <form action="" method="POST">
+                                    <input type="hidden" name="id_publicacion" value="<?= $publicacion['idPublicacio'] ?>">
+                                    <input type="hidden" name="id_hilo" value="<?= $idHilo ?>">
+                                    <button type="submit" name="eliminar_publicacion" class="btn-eliminar">Eliminar</button>
+                                </form>
                             <?php endif; ?>
+
+                           
                         </div>
                     </div>
                 </div>
@@ -245,7 +278,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publicar'])) {
                         
                         foreach ($hilosRelacionados as $hilo):
                         ?>
-                        <li><a href="Publicaciones.php?hilo=<?= $hilo['idHilo'] ?>"><?= htmlspecialchars($hilo['Titol']) ?></a></li>
+                        <li><a href="publicaciones-page.php?hilo=<?= $hilo['idHilo'] ?>"><?= htmlspecialchars($hilo['Titol']) ?></a></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
@@ -277,7 +310,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publicar'])) {
 
                 <div class="sidebar-box cta-box">
                     <p>¿Te interesa este tema?</p>
-                    <a href="Hilos.php?tema=<?= urlencode($hiloDetalle['nomVideojoc']) ?>" class="btn-all-hilos">Ver todos los hilos</a>
+                    <a href="hilos-page.php?tema=<?= urlencode($hiloDetalle['nomVideojoc']) ?>" class="btn-all-hilos">Ver todos los hilos</a>
                 </div>
             </aside>
         </div>
@@ -291,6 +324,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publicar'])) {
         const menuToggle = document.querySelector(".menu-toggle");
         const mobileMenu = document.querySelector(".mobile-menu");
         const closeMenu = document.querySelector(".close-menu");
+        const eliminaBoton = document.querySelector(".btn-eliminar");
 
         menuToggle.addEventListener("click", function () {
             mobileMenu.classList.add("active");
@@ -299,23 +333,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publicar'])) {
         closeMenu.addEventListener("click", function () {
             mobileMenu.classList.remove("active");
         });
-        
-        // Funcionalidad para citar publicaciones
-        const btnCitar = document.querySelectorAll(".btn-citar");
-        const textarea = document.querySelector("textarea[name='contenido']");
-        
-        btnCitar.forEach((btn, index) => {
-            btn.addEventListener("click", function() {
-                const publicacionTexto = document.querySelectorAll(".publicacion-texto")[index].textContent.trim();
-                const username = document.querySelectorAll(".usuario-nombre")[index].textContent.trim();
-                
-                const cita = `[Cita de ${username}]\n${publicacionTexto}\n[Fin de cita]\n\n`;
-                
-                textarea.value += cita;
-                textarea.focus();
-                textarea.scrollIntoView({ behavior: 'smooth' });
-            });
-        });
+       
     });
 </script>
 

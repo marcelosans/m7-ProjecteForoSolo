@@ -114,7 +114,7 @@ $temas = $preparada->fetchAll(PDO::FETCH_ASSOC);
                                         <span class="stat-value">Muy activo</span>
                                     </div>
                                 </div>
-                                <a href="#" class="btn-ver-tema">Ver tema</a>
+                                <a href="<?php echo '../PHP/hilos-page.php?tema='.  $tema['nomVideojoc'] ?>" class="btn-ver-tema">Ver tema</a>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -142,7 +142,6 @@ $temas = $preparada->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                         
                     </div>
-                    <a href="<?php echo '../PHP/hilos-page.php?tema='.  $tema['nomVideojoc'] ?>" class="btn-ver-tema">Ver tema</a>
                 </div>
                 
                 <aside class="sidebar">

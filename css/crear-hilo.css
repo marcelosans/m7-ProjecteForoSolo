@@ -1,0 +1,251 @@
+/* Estilos para la página de creación de hilos */
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Estilos del banner de tema */
+.tema-banner {
+    background-color: #5c258d;
+    background-image: linear-gradient(to right, #5c258d, #4389a2);
+    color: white;
+    padding: 40px 0 20px; /* Incrementado el padding superior */
+    margin-bottom: 30px;
+    margin-top: 4em; /* Añadido margen superior */
+}
+
+.tema-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.tema-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.tema-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tema-info h1 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+}
+
+.breadcrumbs {
+    font-size: 14px;
+}
+
+.breadcrumbs a {
+    color: #e0e0ff;
+    text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+/* Contenido principal */
+.page-content {
+    padding: 20px 0 60px;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 60vh;
+}
+
+/* Estilos para el formulario de crear hilo */
+.crear-hilo-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.crear-hilo-header {
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.crear-hilo-header h2 {
+    margin: 0;
+    color: #333;
+    font-size: 22px;
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.alert-error {
+    background-color: #ffebee;
+    border-left: 4px solid #f44336;
+    color: #d32f2f;
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    border-left: 4px solid #4caf50;
+    color: #2e7d32;
+}
+
+.crear-hilo-form {
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #4389a2;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(67, 137, 162, 0.2);
+}
+
+.char-counter {
+    position: absolute;
+    right: 10px;
+    bottom: -20px;
+    font-size: 12px;
+    color: #888;
+}
+
+.char-counter .warning {
+    color: #f44336;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-cancel,
+.btn-submit {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-cancel {
+    background-color: #f5f5f5;
+    color: #666;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-submit {
+    background-color: black;
+    color: white;
+    border: none;
+    font-weight: 600;
+}
+
+.btn-cancel:hover {
+    background-color: #e5e5e5;
+}
+
+.btn-submit:hover {
+    background-color: #4e1d78;
+}
+
+/* Normas del hilo */
+.normas-hilo {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    border-left: 4px solid black;
+}
+
+.normas-hilo h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: black;
+}
+
+.normas-hilo ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.normas-hilo li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tema-header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: center;
+    }
+    
+    .tema-image {
+        margin: 0 auto 15px;
+    }
+    
+    .tema-info {
+        text-align: center;
+        width: 100%;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn-cancel, 
+    .btn-submit {
+        width: 100%;
+    }
+}

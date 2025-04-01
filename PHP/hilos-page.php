@@ -153,7 +153,7 @@ if (isset($_GET['tema']) && !empty($_GET['tema'])) {
                 <div class="hilos-header">
                     <h2>Hilos de <?= htmlspecialchars($tema) ?></h2>
                     <div class="hilos-controls">
-                        <button class="btn-new-hilo">Nuevo Hilo</button>
+                        <button class="btn-new-hilo"> <a href="<?php echo 'crearHilo.php?tema=' . urlencode($_GET['tema']); ?>"> Crear Nuevo Hilo</a> </button>
                     </div>
                 </div>
 
@@ -268,7 +268,9 @@ if (isset($_GET['tema']) && !empty($_GET['tema'])) {
 
                 <div class="sidebar-box cta-box">
                     <p>¿Tienes algo que compartir?</p>
-                    <button class="btn-new-topic">Crear Nuevo Hilo</button>
+                    <button class="btn-new-topic">
+                    <a href="<?php echo 'crearHilo.php?tema=' . urlencode($_GET['tema']); ?>"> Crear Nuevo Hilo</a>
+                   </button>
                 </div>
             </aside>
         </div>
@@ -304,6 +306,9 @@ if (isset($_GET['tema']) && !empty($_GET['tema'])) {
         });
     });
 </script>
+
+
+
 
 </body>
 </html>
