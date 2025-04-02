@@ -103,7 +103,7 @@ $nuevoJuego = $preparadaNuevo->fetchAll(PDO::FETCH_ASSOC);
             </a>
             <div id="content">
                 <nav class="nav-links">
-                    <a href="#">Inicio</a>
+                    <a href="./HomePage.php">Inicio</a>
                     <a href="./Temas.php">Temas</a>
                     <div class="profile">
                         <img src="<?= !empty($usuario['profile_image']) ? $usuario['profile_image'] : '../profile/profile.png' ?>" alt="Imagen de perfil">
@@ -133,7 +133,14 @@ $nuevoJuego = $preparadaNuevo->fetchAll(PDO::FETCH_ASSOC);
     </div>
     
     <main class="page-content">
+
         <div class="container-tema main-container">
+
+        <div class="titulo">
+        <h1>TEMAS</h1>
+        </div>
+        <div class="container main-container">
+
             <div class="content-layout">
                 <div class="temas-container">
                     <?php foreach ($temas as $tema): ?>

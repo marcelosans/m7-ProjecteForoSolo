@@ -53,7 +53,7 @@ $totalHilo = $preparadaHilo->fetchColumn();
 
     <div class="login-container">
         <div id="content">
-            <!-- 🔹 Navbar -->
+            <!-- Navbar -->
             <header class="navbar">
                 <div class="container">
                     <!-- Logo -->
