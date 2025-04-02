@@ -34,6 +34,29 @@ if (isset($_GET['tema']) && !empty($_GET['tema'])) {
     header('Location: Temas.php');
     exit;
 }
+
+// Configuración de paginación
+$hilosPorPagina = 10; // Número de hilos por página
+$paginaActual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+if ($paginaActual < 1) $paginaActual = 1;
+
+// Calcular el offset para la consulta SQL
+$offset = ($paginaActual - 1) * $hilosPorPagina;
+
+// Obtener el número total de hilos para calcular las páginas
+$sqlContarHilos = "SELECT COUNT(*) AS total FROM Hilo WHERE nomVideojoc = :tema";
+$prepContar = $db->prepare($sqlContarHilos);
+$prepContar->bindParam(':tema', $tema);
+$prepContar->execute();
+$totalHilos = $prepContar->fetch(PDO::FETCH_ASSOC)['total'];
+
+// Calcular el número total de páginas
+$totalPaginas = ceil($totalHilos / $hilosPorPagina);
+if ($paginaActual > $totalPaginas && $totalPaginas > 0) {
+    // Si la página actual es mayor que el total, redirigir a la última página
+    header("Location: hilos-page.php?tema=" . urlencode($tema) . "&pagina=$totalPaginas");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -105,7 +128,7 @@ if (isset($_GET['tema']) && !empty($_GET['tema'])) {
 </div>
 
 <div class="tema-banner">
-    <div class="container">
+    <div class="container-hilo">
         <div class="tema-header">
             <div class="tema-image">
                 <img src="<?= htmlspecialchars($temaDetalle['imagen']) ?>" alt="<?= htmlspecialchars($tema) ?>">
@@ -147,7 +170,7 @@ if (isset($_GET['tema']) && !empty($_GET['tema'])) {
 </div>
 
 <main class="page-content">
-    <div class="container main-container">
+    <div class="container-hilo main-container">
         <div class="content-layout">
             <div class="hilos-container">
                 <div class="hilos-header">
@@ -158,16 +181,20 @@ if (isset($_GET['tema']) && !empty($_GET['tema'])) {
                 </div>
 
                 <?php
-                // Obtener todos los hilos del tema
+                // Obtener todos los hilos del tema con paginación
                 $sqlHilos = "SELECT H.*, U.username, U.profile_image, 
                             (SELECT COUNT(*) FROM Publicacio WHERE idHilo = H.idHilo) AS numRespuestas,
                             (SELECT MAX(dataPub) FROM Publicacio WHERE idHilo = H.idHilo) AS ultimaActividad
                             FROM Hilo H
                             JOIN Users U ON H.iduser = U.iduser
                             WHERE H.nomVideojoc = :tema
-                            ORDER BY ultimaActividad DESC";
+                            ORDER BY ultimaActividad DESC
+                            LIMIT :offset, :limit";
+                            
                 $prepHilos = $db->prepare($sqlHilos);
                 $prepHilos->bindParam(':tema', $tema);
+                $prepHilos->bindParam(':offset', $offset, PDO::PARAM_INT);
+                $prepHilos->bindParam(':limit', $hilosPorPagina, PDO::PARAM_INT);
                 $prepHilos->execute();
                 $hilos = $prepHilos->fetchAll(PDO::FETCH_ASSOC);
                 
@@ -203,15 +230,51 @@ if (isset($_GET['tema']) && !empty($_GET['tema'])) {
                 </div>
                 <?php endif; ?>
                 
-                <!-- Paginación -->
+                <!-- Paginación dinámica -->
+                <?php if ($totalPaginas > 1): ?>
                 <div class="pagination">
-                    <a href="#" class="page-link active">1</a>
-                    <a href="#" class="page-link">2</a>
-                    <a href="#" class="page-link">3</a>
+                    <?php if ($paginaActual > 1): ?>
+                    <a href="?tema=<?= urlencode($tema) ?>&pagina=<?= $paginaActual - 1 ?>" class="page-link">Anterior</a>
+                    <?php endif; ?>
+                    
+                    <?php
+                    // Determinar qué páginas mostrar
+                    $mostrarPaginas = 5; // Número de páginas a mostrar en la barra
+                    $startPage = max(1, min($paginaActual - floor($mostrarPaginas / 2), $totalPaginas - $mostrarPaginas + 1));
+                    $endPage = min($startPage + $mostrarPaginas - 1, $totalPaginas);
+                    
+                    // Asegurarse de que se muestran al menos $mostrarPaginas o todas si hay menos
+                    if ($endPage - $startPage + 1 < $mostrarPaginas && $startPage > 1) {
+                        $startPage = max(1, $endPage - $mostrarPaginas + 1);
+                    }
+                    
+                    if ($startPage > 1): ?>
+                    <a href="?tema=<?= urlencode($tema) ?>&pagina=1" class="page-link">1</a>
+                    <?php 
+                    if ($startPage > 2): 
+                    ?>
                     <span class="page-dots">...</span>
-                    <a href="#" class="page-link">10</a>
-                    <a href="#" class="page-link next">Siguiente</a>
+                    <?php 
+                    endif;
+                    endif; 
+                    
+                    for ($i = $startPage; $i <= $endPage; $i++): 
+                    ?>
+                    <a href="?tema=<?= urlencode($tema) ?>&pagina=<?= $i ?>" class="page-link <?= $i == $paginaActual ? 'active' : '' ?>"><?= $i ?></a>
+                    <?php endfor; 
+                    
+                    // Mostrar enlace a la última página si no es la actual
+                    if ($endPage < $totalPaginas): 
+                    ?>
+                    <span class="page-dots">...</span>
+                    <a href="?tema=<?= urlencode($tema) ?>&pagina=<?= $totalPaginas ?>" class="page-link"><?= $totalPaginas ?></a>
+                    <?php endif; ?>
+                    
+                    <?php if ($paginaActual < $totalPaginas): ?>
+                    <a href="?tema=<?= urlencode($tema) ?>&pagina=<?= $paginaActual + 1 ?>" class="page-link next">Siguiente</a>
+                    <?php endif; ?>
                 </div>
+                <?php endif; ?>
             </div>
 
             <aside class="sidebar">
@@ -306,9 +369,5 @@ if (isset($_GET['tema']) && !empty($_GET['tema'])) {
         });
     });
 </script>
-
-
-
-
 </body>
 </html>

@@ -21,8 +21,8 @@ body {
     margin-top: 70px;
 }
 
-.container {
-    max-width: 1200px;
+.container-publicacion {
+    max-width: 1150px;
     margin: 0 auto;
     width: 90%;
 }

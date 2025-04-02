@@ -4,10 +4,12 @@ if (!isset($_SESSION['email'])) {
     header('Location: Login.php'); 
     exit;
 }
-
 require_once('ConectaDB.php');
-$sql = 'SELECT * FROM `users` WHERE mail = :email ';
+require_once('publicacionesDB.php');
+require_once('paginacionPublicaciones.php');
 
+// Obtener datos del usuario actual
+$sql = 'SELECT * FROM `users` WHERE mail = :email ';
 $preparada = $db->prepare($sql);
 $preparada->bindParam(':email', $_SESSION['email']);
 $preparada->execute();
@@ -18,15 +20,7 @@ if (isset($_GET['hilo']) && !empty($_GET['hilo'])) {
     $idHilo = $_GET['hilo'];
     
     // Obtener detalles del hilo
-    $sqlHilo = 'SELECT H.*, T.nomVideojoc, T.imagen, U.username as creador 
-                FROM Hilo H 
-                JOIN Tema T ON H.nomVideojoc = T.nomVideojoc 
-                JOIN Users U ON H.iduser = U.iduser 
-                WHERE H.idHilo = :idHilo';
-    $preparadaHilo = $db->prepare($sqlHilo);
-    $preparadaHilo->bindParam(':idHilo', $idHilo);
-    $preparadaHilo->execute();
-    $hiloDetalle = $preparadaHilo->fetch(PDO::FETCH_ASSOC);
+    $hiloDetalle = obtenerDetallesHilo($db, $idHilo);
     
     if (!$hiloDetalle) {
         // Si no existe el hilo, redirigir a la página de temas
@@ -38,54 +32,62 @@ if (isset($_GET['hilo']) && !empty($_GET['hilo'])) {
     header('Location: Temas.php');
     exit;
 }
-
 // Procesar el envío de nueva publicación
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publicar'])) {
     $contenido = trim($_POST['contenido']);
     
     if (!empty($contenido)) {
-        $sqlInsert = "INSERT INTO Publicacio (Contingut, dataPub, idHilo, iduser) 
-                     VALUES (:contenido, CURDATE(), :idHilo, :iduser)";
-        $prepInsert = $db->prepare($sqlInsert);
-        $prepInsert->bindParam(':contenido', $contenido);
-        $prepInsert->bindParam(':idHilo', $idHilo);
-        $prepInsert->bindParam(':iduser', $usuario['iduser']);
-        
-        if ($prepInsert->execute()) {
+        if (insertarPublicacion($db, $contenido, $idHilo, $usuario['iduser'])) {
             // Redirigir para evitar reenvío de formulario
             header("Location: publicaciones-page.php?hilo=$idHilo");
             exit;
         }
     }
 }
-
+// Procesar eliminación de publicación
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_publicacion'])) {
     $idPublicacion = $_POST['id_publicacion'];
     $idHilo = $_POST['id_hilo'];
-    $sqlVerificar = "SELECT iduser FROM Publicacio WHERE idPublicacio = :idPublicacion";
-    $prepVerificar = $db->prepare($sqlVerificar);
-    $prepVerificar->bindParam(':idPublicacion', $idPublicacion);
-    $prepVerificar->execute();
-    $publicacionData = $prepVerificar->fetch(PDO::FETCH_ASSOC);
     
-    if ($publicacionData && $publicacionData['iduser'] == $usuario['iduser']) {
-        $sqlEliminar = "DELETE FROM Publicacio WHERE idPublicacio = :idPublicacion";
-        $prepEliminar = $db->prepare($sqlEliminar);
-        $prepEliminar->bindParam(':idPublicacion', $idPublicacion);
-        
-        if ($prepEliminar->execute()) {
+    $resultado = eliminarPublicacion($db, $idPublicacion, $idHilo, $usuario['iduser']);
+    
+    if ($resultado['success']) {
+        if ($resultado['deleted_thread']) {
+            // Si se eliminó el hilo completo, redirigir a la página de temas del videojuego
+            header("Location: hilos-page.php?tema=" . urlencode($resultado['tema']));
+            exit;
+        } else {
+            // Si solo se eliminó una publicación, redirigir a la misma página
             header("Location: publicaciones-page.php?hilo=$idHilo");
             exit;
         }
     } else {
-        header("Location: publicaciones-page.php?hilo=$idHilo");
+        // Error al eliminar
+        header("Location: publicaciones-page.php?hilo=$idHilo&error=1");
         exit;
     }
 }
 
-
-
-
+// Configuración de paginación
+$publicacionesPorPagina = 5; // Número de publicaciones por página
+$paginaActual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+// Obtener el total de publicaciones y calcular páginas
+$totalPublicaciones = contarPublicaciones($db, $idHilo);
+$totalPaginas = ceil($totalPublicaciones / $publicacionesPorPagina);
+// Validar y ajustar la página actual
+$paginaActual = validarPagina($paginaActual, $totalPaginas);
+// Calcular el offset para la consulta
+$offset = ($paginaActual - 1) * $publicacionesPorPagina;
+// Obtener publicaciones para la página actual
+$publicaciones = obtenerPublicacionesPaginadas($db, $idHilo, $offset, $publicacionesPorPagina);
+// Obtener el ID del primer post para marcar como OP
+$primerPostId = obtenerPrimerPostId($db, $idHilo);
+// Calcular los enlaces de paginación
+$enlacesPaginacion = ($totalPaginas > 0) ? generarEnlacesPaginacion($paginaActual, $totalPaginas) : [];
+// Obtener hilos relacionados
+$hilosRelacionados = obtenerHilosRelacionados($db, $hiloDetalle['nomVideojoc'], $idHilo);
+// Obtener usuarios activos
+$usuariosActivos = obtenerUsuariosActivos($db, $idHilo);
 ?>
 
 <!DOCTYPE html>
@@ -157,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_publicacion'
 </div>
 
 <div class="breadcrumbs">
-    <div class="container">
+    <div class="container-publicacion">
         <a href="Temas.php">Temas</a> &gt; 
         <a href="hilos-page.php?tema=<?= urlencode($hiloDetalle['nomVideojoc']) ?>"><?= htmlspecialchars($hiloDetalle['nomVideojoc']) ?></a> &gt; 
         <span><?= htmlspecialchars($hiloDetalle['Titol']) ?></span>
@@ -165,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_publicacion'
 </div>
 
 <main class="page-content">
-    <div class="container main-container">
+    <div class="container-publicacion main-container">
         <div class="content-layout">
             <div class="publicaciones-container">
                 <div class="hilo-header">
@@ -181,61 +183,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_publicacion'
                     </div>
                 </div>
 
-                <?php
-                // Obtener todas las publicaciones del hilo
-                $sqlPublicaciones = "SELECT P.*, U.username, U.profile_image 
-                                    FROM Publicacio P
-                                    JOIN Users U ON P.iduser = U.iduser
-                                    WHERE P.idHilo = :idHilo
-                                    ORDER BY P.dataPub ASC, P.idPublicacio ASC";
-                $prepPublicaciones = $db->prepare($sqlPublicaciones);
-                $prepPublicaciones->bindParam(':idHilo', $idHilo);
-                $prepPublicaciones->execute();
-                $publicaciones = $prepPublicaciones->fetchAll(PDO::FETCH_ASSOC);
-                
-                if (count($publicaciones) > 0):
+                <?php if (count($publicaciones) > 0): ?>
+                    <?php 
+                    // Calcular el índice base para la numeración de publicaciones
+                    $baseIndex = ($paginaActual - 1) * $publicacionesPorPagina;
+                    
                     foreach ($publicaciones as $index => $publicacion):
-                ?>
-                <div class="publicacion <?= $index === 0 ? 'publicacion-original' : '' ?>">
-                    <div class="publicacion-sidebar">
-                        <div class="usuario-info">
-                            <img src="<?= !empty($publicacion['profile_image']) ? $publicacion['profile_image'] : '../profile/profile.png' ?>" alt="Avatar" class="usuario-avatar">
-                            <div class="usuario-nombre"><?= htmlspecialchars($publicacion['username']) ?></div>
-                            <?php if ($index === 0): ?>
-                                <div class="badge-op">OP</div>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <div class="publicacion-content">
-                        <div class="publicacion-header">
-                            <div class="publicacion-fecha">
-                                <?= date('d/m/Y', strtotime($publicacion['dataPub'])) ?>
+                        $esOP = ($publicacion['idPublicacio'] == $primerPostId);
+                    ?>
+                    <div class="publicacion <?= $esOP ? 'publicacion-original' : '' ?>">
+                        <div class="publicacion-sidebar">
+                            <div class="usuario-info">
+                                <img src="<?= !empty($publicacion['profile_image']) ? $publicacion['profile_image'] : '../profile/profile.png' ?>" alt="Avatar" class="usuario-avatar">
+                                <div class="usuario-nombre"><?= htmlspecialchars($publicacion['username']) ?></div>
+                                <?php if ($esOP): ?>
+                                    <div class="badge-op">OP</div>
+                                <?php endif; ?>
                             </div>
-                            <div class="publicacion-numero">#<?= $index + 1 ?></div>
                         </div>
-                        <div class="publicacion-texto">
-                            <?= nl2br(htmlspecialchars($publicacion['Contingut'])) ?>
-                        </div>
-                        <div class="publicacion-footer">
-                            <?php if ($publicacion['iduser'] == $usuario['iduser']): ?>
-                                <form action="" method="POST">
-                                    <input type="hidden" name="id_publicacion" value="<?= $publicacion['idPublicacio'] ?>">
-                                    <input type="hidden" name="id_hilo" value="<?= $idHilo ?>">
-                                    <button type="submit" name="eliminar_publicacion" class="btn-eliminar">Eliminar</button>
-                                </form>
-                            <?php endif; ?>
-
-                           
+                        <div class="publicacion-content">
+                            <div class="publicacion-header">
+                                <div class="publicacion-fecha">
+                                    <?= date('d/m/Y', strtotime($publicacion['dataPub'])) ?>
+                                </div>
+                                <div class="publicacion-numero">#<?= $baseIndex + $index + 1 ?></div>
+                            </div>
+                            <div class="publicacion-texto">
+                                <?= nl2br(htmlspecialchars($publicacion['Contingut'])) ?>
+                            </div>
+                            <div class="publicacion-footer">
+                                <?php if ($publicacion['iduser'] == $usuario['iduser']): ?>
+                                    <form action="" method="POST">
+                                        <input type="hidden" name="id_publicacion" value="<?= $publicacion['idPublicacio'] ?>">
+                                        <input type="hidden" name="id_hilo" value="<?= $idHilo ?>">
+                                        <button type="submit" name="eliminar_publicacion" class="btn-eliminar">Eliminar</button>
+                                    </form>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <?php 
-                    endforeach;
-                else:
-                ?>
-                <div class="no-publicaciones">
-                    <p>No hay publicaciones en este hilo. ¡Sé el primero en responder!</p>
-                </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="no-publicaciones">
+                        <p>No hay publicaciones en este hilo. ¡Sé el primero en responder!</p>
+                    </div>
                 <?php endif; ?>
                 
                 <!-- Formulario para agregar nueva publicación -->
@@ -248,36 +239,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_publicacion'
                 </div>
                 
                 <!-- Paginación -->
+                <?php if ($totalPaginas > 1): ?>
                 <div class="pagination">
-                    <a href="#" class="page-link active">1</a>
-                    <a href="#" class="page-link">2</a>
-                    <a href="#" class="page-link">3</a>
-                    <span class="page-dots">...</span>
-                    <a href="#" class="page-link">10</a>
-                    <a href="#" class="page-link next">Siguiente</a>
+                    <?php if ($paginaActual > 1): ?>
+                        <a href="<?= paginaURL($paginaActual - 1, $idHilo) ?>" class="page-link prev">Anterior</a>
+                    <?php endif; ?>
+                    
+                    <?php foreach ($enlacesPaginacion as $pagina): ?>
+                        <?php if ($pagina === '...'): ?>
+                            <span class="page-dots">...</span>
+                        <?php else: ?>
+                            <a href="<?= paginaURL($pagina, $idHilo) ?>" class="page-link <?= ($pagina == $paginaActual) ? 'active' : '' ?>">
+                                <?= $pagina ?>
+                            </a>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                    
+                    <?php if ($paginaActual < $totalPaginas): ?>
+                        <a href="<?= paginaURL($paginaActual + 1, $idHilo) ?>" class="page-link next">Siguiente</a>
+                    <?php endif; ?>
                 </div>
+                <?php endif; ?>
             </div>
 
             <aside class="sidebar">
                 <div class="sidebar-box">
                     <h3>Hilos Relacionados</h3>
                     <ul class="related-hilos">
-                        <?php
-                        // Obtener hilos relacionados del mismo tema
-                        $sqlRelacionados = "SELECT H.idHilo, H.Titol
-                                          FROM Hilo H
-                                          WHERE H.nomVideojoc = :nomVideojoc
-                                          AND H.idHilo != :idHilo
-                                          ORDER BY RAND()
-                                          LIMIT 5";
-                        $prepRelacionados = $db->prepare($sqlRelacionados);
-                        $prepRelacionados->bindParam(':nomVideojoc', $hiloDetalle['nomVideojoc']);
-                        $prepRelacionados->bindParam(':idHilo', $idHilo);
-                        $prepRelacionados->execute();
-                        $hilosRelacionados = $prepRelacionados->fetchAll(PDO::FETCH_ASSOC);
-                        
-                        foreach ($hilosRelacionados as $hilo):
-                        ?>
+                        <?php foreach ($hilosRelacionados as $hilo): ?>
                         <li><a href="publicaciones-page.php?hilo=<?= $hilo['idHilo'] ?>"><?= htmlspecialchars($hilo['Titol']) ?></a></li>
                         <?php endforeach; ?>
                     </ul>
@@ -286,20 +275,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_publicacion'
                 <div class="sidebar-box">
                     <h3>Usuarios Activos</h3>
                     <ul class="active-users">
-                        <?php
-                        // Obtener usuarios que han participado en el hilo
-                        $sqlUsuarios = "SELECT DISTINCT U.iduser, U.username, U.profile_image
-                                      FROM Publicacio P
-                                      JOIN Users U ON P.iduser = U.iduser
-                                      WHERE P.idHilo = :idHilo
-                                      LIMIT 5";
-                        $prepUsuarios = $db->prepare($sqlUsuarios);
-                        $prepUsuarios->bindParam(':idHilo', $idHilo);
-                        $prepUsuarios->execute();
-                        $usuariosActivos = $prepUsuarios->fetchAll(PDO::FETCH_ASSOC);
-                        
-                        foreach ($usuariosActivos as $user):
-                        ?>
+                        <?php foreach ($usuariosActivos as $user): ?>
                         <li>
                             <img src="<?= !empty($user['profile_image']) ? $user['profile_image'] : '../profile/profile.png' ?>" alt="<?= htmlspecialchars($user['username']) ?>">
                             <span><?= htmlspecialchars($user['username']) ?></span>
@@ -317,25 +293,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_publicacion'
     </div>
 </main>
 
+<script src="../Js/NavBar.js"></script>
 <script src="../Js/Loading.js"></script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const menuToggle = document.querySelector(".menu-toggle");
-        const mobileMenu = document.querySelector(".mobile-menu");
-        const closeMenu = document.querySelector(".close-menu");
-        const eliminaBoton = document.querySelector(".btn-eliminar");
-
-        menuToggle.addEventListener("click", function () {
-            mobileMenu.classList.add("active");
-        });
-
-        closeMenu.addEventListener("click", function () {
-            mobileMenu.classList.remove("active");
-        });
-       
-    });
-</script>
-
 </body>
 </html>
