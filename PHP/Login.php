@@ -32,7 +32,7 @@
                 $_SESSION['profile']  = $usuario['profile_image'];
                 $_SESSION['bio']      = $usuario['bio'];
                 $_SESSION['location'] = $usuario['location'];
-                header('Location: Index.php');
+                header('Location: HomePage.php');
                 exit;
             } else {
                 $message      = 'La contraseña es incorrecta.';

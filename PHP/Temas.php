@@ -208,9 +208,10 @@ $nuevoJuego = $preparadaNuevo->fetchAll(PDO::FETCH_ASSOC);
         <!-- Paginación dinámica -->
         <?php if ($totalPaginas > 1): ?>
         <div class="pagination">
-            <?php if ($paginaActual > 1): ?>
-            <a href="?pagina=<?= $paginaActual - 1 ?>" class="page-link">Anterior</a>
-            <?php endif; ?>
+        <?php if ($paginaActual > 1): ?>
+            <a href="?pagina=<?= $paginaActual - 1 ?>" class="page-link prev">Anterior</a>
+        <?php endif; ?>
+
             
             <?php
             // Determinar qué páginas mostrar

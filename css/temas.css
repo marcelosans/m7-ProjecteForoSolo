@@ -281,14 +281,15 @@ h1 {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px; /* Increased from 32px */
-    height: 40px; /* Increased from 32px */
-    border-radius: 6px; /* Increased from 4px */
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
     text-decoration: none;
     color: var(--text-color);
     transition: background-color 0.3s ease;
-    border: 2px solid var(--border-color); /* Increased border width */
-    font-size: 18px; /* Added font size */
+    border: 2px solid var(--border-color);
+    font-size: 18px;
+    padding: 0 12px; /* Ajuste para dar un poco más de espacio */
 }
 
 .page-link:hover {
@@ -303,8 +304,14 @@ h1 {
 
 .page-link.next {
     width: auto;
-    padding: 0 20px; /* Increased from 15px */
+    padding: 0 20px;
 }
+
+.page-link.prev {
+    width: auto;
+    padding: 0 20px;
+}
+
 
 .page-dots {
     color: var(--text-light);
