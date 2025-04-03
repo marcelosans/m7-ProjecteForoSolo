@@ -15,6 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Mostrar/ocultar dropdown en móvil
     mobileProfileToggle.addEventListener("click", function () {
-        mobileDropdown.classList.toggle("active");
+        mobileDropdown.classList.add("active");
     });
 });

@@ -209,7 +209,7 @@ $usuariosActivos = obtenerUsuariosActivos($db, $idHilo);
                                 <div class="publicacion-numero">#<?= $baseIndex + $index + 1 ?></div>
                             </div>
                             <div class="publicacion-texto">
-                                <?= nl2br(htmlspecialchars($publicacion['Contingut'])) ?>
+                                <p> <?= nl2br(htmlspecialchars($publicacion['Contingut'])) ?></p>
                             </div>
                             <div class="publicacion-footer">
                                 <?php if ($publicacion['iduser'] == $usuario['iduser']): ?>
@@ -233,7 +233,7 @@ $usuariosActivos = obtenerUsuariosActivos($db, $idHilo);
                 <div class="nueva-publicacion">
                     <h3>Responder</h3>
                     <form action="" method="POST">
-                        <textarea name="contenido" rows="5" placeholder="Escribe tu respuesta..." required></textarea>
+                        <textarea name="contenido" rows="5" placeholder="Escribe tu respuesta..."  maxlength="500" required></textarea>
                         <button type="submit" name="publicar" class="btn-publicar">Publicar respuesta</button>
                     </form>
                 </div>
@@ -295,5 +295,6 @@ $usuariosActivos = obtenerUsuariosActivos($db, $idHilo);
 
 <script src="../Js/NavBar.js"></script>
 <script src="../Js/Loading.js"></script>
+<script src="../Js/saltolinea.js"></script>
 </body>
 </html>

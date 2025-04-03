@@ -341,33 +341,7 @@ if ($paginaActual > $totalPaginas && $totalPaginas > 0) {
 </main>
 
 <script src="../Js/Loading.js"></script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const menuToggle = document.querySelector(".menu-toggle");
-        const mobileMenu = document.querySelector(".mobile-menu");
-        const closeMenu = document.querySelector(".close-menu");
-
-        menuToggle.addEventListener("click", function () {
-            mobileMenu.classList.add("active");
-        });
-
-        closeMenu.addEventListener("click", function () {
-            mobileMenu.classList.remove("active");
-        });
-        
-        // Botones para crear nuevo hilo
-        const btnNewHilo = document.querySelector(".btn-new-hilo");
-        const btnNewTopic = document.querySelector(".btn-new-topic");
-        
-        btnNewHilo.addEventListener("click", function() {
-            window.location.href = "CrearHilo.php?tema=<?= urlencode($tema) ?>";
-        });
-        
-        btnNewTopic.addEventListener("click", function() {
-            window.location.href = "CrearHilo.php?tema=<?= urlencode($tema) ?>";
-        });
-    });
-</script>
+<script src="../Js/NavBar.js"></script>
+<script src="../Js/hilos.js"></script>
 </body>
 </html>

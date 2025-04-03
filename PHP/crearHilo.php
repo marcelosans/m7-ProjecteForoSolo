@@ -7,7 +7,7 @@ if (!isset($_SESSION['email'])) {
 
 require_once('ConectaDB.php');
 
-// Obtener información del usuario
+
 $sql = 'SELECT * FROM `users` WHERE mail = :email';
 $preparada = $db->prepare($sql);
 $preparada->bindParam(':email', $_SESSION['email']);
@@ -55,10 +55,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "El mensaje no puede superar los 500 caracteres.";
     } else {
         try {
-            // Iniciar transacción
+           
             $db->beginTransaction();
             
-            // Insertar el hilo
+           
             $sqlHilo = "INSERT INTO Hilo (Titol, nomVideojoc, iduser) VALUES (:titulo, :tema, :iduser)";
             $prepHilo = $db->prepare($sqlHilo);
             $prepHilo->bindParam(':titulo', $titulo);
@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $prepHilo->bindParam(':iduser', $usuario['iduser']);
             $prepHilo->execute();
             
-            // Obtener el ID del hilo recién creado
+            
             $idHilo = $db->lastInsertId();
             
             // Insertar la primera publicación
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $prepPublicacion->bindParam(':iduser', $usuario['iduser']);
             $prepPublicacion->execute();
             
-            // Confirmar transacción
+            
             $db->commit();
             
             // Redirigir a la página del hilo creado
@@ -236,52 +236,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </main>
 
 <script src="../Js/Loading.js"></script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Menú móvil
-        const menuToggle = document.querySelector(".menu-toggle");
-        const mobileMenu = document.querySelector(".mobile-menu");
-        const closeMenu = document.querySelector(".close-menu");
-
-        menuToggle.addEventListener("click", function () {
-            mobileMenu.classList.add("active");
-        });
-
-        closeMenu.addEventListener("click", function () {
-            mobileMenu.classList.remove("active");
-        });
-        
-        // Contadores de caracteres
-        const tituloInput = document.getElementById("titulo");
-        const contenidoTextarea = document.getElementById("contenido");
-        const tituloCount = document.getElementById("titulo-count");
-        const contenidoCount = document.getElementById("contenido-count");
-        
-        // Inicializar contadores
-        tituloCount.textContent = tituloInput.value.length;
-        contenidoCount.textContent = contenidoTextarea.value.length;
-        
-        // Actualizar contadores al escribir
-        tituloInput.addEventListener("input", function() {
-            tituloCount.textContent = this.value.length;
-            if (this.value.length >= 90) {
-                tituloCount.classList.add("warning");
-            } else {
-                tituloCount.classList.remove("warning");
-            }
-        });
-        
-        contenidoTextarea.addEventListener("input", function() {
-            contenidoCount.textContent = this.value.length;
-            if (this.value.length >= 450) {
-                contenidoCount.classList.add("warning");
-            } else {
-                contenidoCount.classList.remove("warning");
-            }
-        });
-    });
-</script>
+<script src="../Js/NavBar.js"></script>
+<script src="../JS/crearHilo.js"></script>
 
 </body>
 </html>

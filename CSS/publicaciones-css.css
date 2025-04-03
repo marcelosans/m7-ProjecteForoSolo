@@ -67,6 +67,13 @@ body {
     gap: 20px;
 }
 
+.post-content p {
+    word-wrap: break-word; 
+    word-break: break-word; 
+    max-width: 100%; 
+    white-space: pre-wrap; 
+}
+
 .hilo-header {
     background-color: var(--card-color);
     border-radius: 8px;
@@ -201,6 +208,11 @@ body {
     overflow-wrap: break-word;
     word-wrap: break-word;
 }
+
+.publicacion-texto p {
+    word-break: break-all;
+}
+
 
 .publicacion-footer {
     display: flex;

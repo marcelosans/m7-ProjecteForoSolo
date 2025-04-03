@@ -18,7 +18,7 @@ $temasPorPagina = 10; // Número de temas por página
 $paginaActual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 if ($paginaActual < 1) $paginaActual = 1;
 
-// Calcular el offset para la consulta SQL
+
 $offset = ($paginaActual - 1) * $temasPorPagina;
 
 // Obtener el número total de temas para calcular las páginas
@@ -30,7 +30,6 @@ $totalTemas = $prepContar->fetch(PDO::FETCH_ASSOC)['total'];
 // Calcular el número total de páginas
 $totalPaginas = ceil($totalTemas / $temasPorPagina);
 if ($paginaActual > $totalPaginas && $totalPaginas > 0) {
-    // Si la página actual es mayor que el total, redirigir a la última página
     header("Location: Temas.php?pagina=$totalPaginas");
     exit;
 }
@@ -68,7 +67,7 @@ $sqlNuevo = 'SELECT
  ORDER BY 
      dataPub DESC
  LIMIT 3';
-$preparadaNuevo = $db->prepare($sqlNuevo);  // Corregido de $preparadaNuevo = $db->prepare($sqlRanking);
+$preparadaNuevo = $db->prepare($sqlNuevo);  
 $preparadaNuevo->execute();
 $nuevoJuego = $preparadaNuevo->fetchAll(PDO::FETCH_ASSOC);
 
@@ -135,11 +134,6 @@ $nuevoJuego = $preparadaNuevo->fetchAll(PDO::FETCH_ASSOC);
     <main class="page-content">
 
         <div class="container-tema main-container">
-
-        <div class="titulo">
-        <h1>TEMAS</h1>
-        </div>
-        <div class="container main-container">
 
             <div class="content-layout">
                 <div class="temas-container">
@@ -220,16 +214,16 @@ $nuevoJuego = $preparadaNuevo->fetchAll(PDO::FETCH_ASSOC);
             
             <?php
             // Determinar qué páginas mostrar
-            $mostrarPaginas = 5; // Número de páginas a mostrar en la barra
+            $mostrarPaginas = 5; 
             $startPage = max(1, min($paginaActual - floor($mostrarPaginas / 2), $totalPaginas - $mostrarPaginas + 1));
             $endPage = min($startPage + $mostrarPaginas - 1, $totalPaginas);
             
-            // Asegurarse de que se muestran al menos $mostrarPaginas o todas si hay menos
+            
             if ($endPage - $startPage + 1 < $mostrarPaginas && $startPage > 1) {
                 $startPage = max(1, $endPage - $mostrarPaginas + 1);
             }
             
-            // Mostrar enlace a la primera página si no es la actual
+            
             if ($startPage > 1): ?>
             <a href="?pagina=1" class="page-link">1</a>
             <?php 

@@ -128,6 +128,12 @@ body {
     font-family: inherit;
 }
 
+
+.btn-new-hilo a {
+    text-decoration: none;
+    color: white;
+}
+
 .btn-new-hilo:hover {
     background-color: var(--hover-color);
 }
@@ -320,6 +326,11 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-family: inherit;
+}
+
+.btn-new-topic a  {
+    color: white;
+    text-decoration: none;
 }
 
 .btn-new-topic:hover {
