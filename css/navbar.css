@@ -63,53 +63,56 @@ body {
     border-radius: 50%;
     border: 2px solid black;
     object-fit: cover;
-
 }
 
 /* Dropdown */
 .dropdown {
-    display: none;
+    display: block;
     position: absolute;
     top: 100%;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
     background: #949493;
     border: 1px solid #ddd;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    width: 150px;
-    padding: 10px;
+    width: 160px;
+    padding: 10px 0;
     border-radius: 5px;
-    margin-top: 5px; /* Added space between profile and dropdown */
-    z-index: 150; /* Ensure it appears above other elements */
+    margin-top: 8px;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s, visibility 0.3s;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
+
 .profile:hover .dropdown {
-    display: block;
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
 }
 
 .dropdown li {
     list-style: none;
-    width: 100%; /* Ensure list items fill the dropdown width */
-    margin-bottom: 5px; /* Space between items */
+    width: 100%;
+    padding: 0; /* Asegura que no haya espacios extraños */
 }
 
 .dropdown a {
-    display: block;
-    padding: 10px;
+    display: block; /* MUY importante */
+    padding: 10px 15px;
     text-decoration: none;
     color: black;
     transition: background 0.3s;
-    width: 100%; /* Make links fill the width */
-    text-align: center; /* Center the text */
+    width: 87%;
+    text-align: left;
+    box-sizing: border-box;
+    border-radius: 0; /* Para evitar bordes raros */
 }
 
 .dropdown a:hover {
     background: #f1f1f1;
-    border-radius: 3px; /* Rounded corners on hover */
+    border-radius: 3px;
 }
 
 /* Menú Hamburguesa */
@@ -183,8 +186,6 @@ body {
     border: none;
     cursor: pointer;
 }
-
-
 
 /* Responsive */
 @media (max-width: 800px) {

@@ -108,7 +108,7 @@ $nuevoJuego = $preparadaNuevo->fetchAll(PDO::FETCH_ASSOC);
                         <img src="<?= !empty($usuario['profile_image']) ? $usuario['profile_image'] : '../profile/profile.png' ?>" alt="Imagen de perfil">
                         <ul class="dropdown">
                             <li><a href="./Perfil.php">Mi Perfil</a></li>
-                            <li><a href="cerrarSesion.php">Cerrar Sesión</a></li>
+                            <li><a href="./cerrarSesion.php">Cerrar Sesión</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -205,13 +205,12 @@ $nuevoJuego = $preparadaNuevo->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
 
-        <!-- Paginación dinámica -->
+        <!-- Paginación dinámica corregida -->
         <?php if ($totalPaginas > 1): ?>
         <div class="pagination">
-        <?php if ($paginaActual > 1): ?>
-            <a href="?pagina=<?= $paginaActual - 1 ?>" class="page-link prev">Anterior</a>
-        <?php endif; ?>
-
+            <?php if ($paginaActual > 1): ?>
+                <a href="?pagina=<?= $paginaActual - 1 ?>" class="page-link prev">Anterior</a>
+            <?php endif; ?>
             
             <?php
             // Determinar qué páginas mostrar
@@ -219,37 +218,33 @@ $nuevoJuego = $preparadaNuevo->fetchAll(PDO::FETCH_ASSOC);
             $startPage = max(1, min($paginaActual - floor($mostrarPaginas / 2), $totalPaginas - $mostrarPaginas + 1));
             $endPage = min($startPage + $mostrarPaginas - 1, $totalPaginas);
             
-            
             if ($endPage - $startPage + 1 < $mostrarPaginas && $startPage > 1) {
                 $startPage = max(1, $endPage - $mostrarPaginas + 1);
             }
             
-            
+            // Mostrar enlace a la primera página si no es la actual
             if ($startPage > 1): ?>
-            <a href="?pagina=1" class="page-link">1</a>
-            <?php 
-            if ($startPage > 2): 
-            ?>
-            <span class="page-dots">...</span>
-            <?php 
-            endif;
-            endif; 
+                <a href="?pagina=1" class="page-link <?= 1 === (int)$paginaActual ? 'active' : '' ?>">1</a>
+                <?php if ($startPage > 2): ?>
+                    <span class="page-dots">...</span>
+                <?php endif; ?>
+            <?php endif; ?>
             
-            // Mostrar las páginas numeradas
-            for ($i = $startPage; $i <= $endPage; $i++): 
-            ?>
-            <a href="?pagina=<?= $i ?>" class="page-link <?= $i == $paginaActual ? 'active' : '' ?>"><?= $i ?></a>
-            <?php endfor; 
+            <!-- Mostrar las páginas numeradas -->
+            <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
+                <a href="?pagina=<?= $i ?>" class="page-link <?= (int)$i === (int)$paginaActual ? 'active' : '' ?>"><?= $i ?></a>
+            <?php endfor; ?>
             
-            // Mostrar enlace a la última página si no es la actual
-            if ($endPage < $totalPaginas): 
-            ?>
-            <span class="page-dots">...</span>
-            <a href="?pagina=<?= $totalPaginas ?>" class="page-link"><?= $totalPaginas ?></a>
+            <!-- Mostrar enlace a la última página si no es la actual ni está en el rango mostrado -->
+            <?php if ($endPage < $totalPaginas): ?>
+                <?php if ($endPage < $totalPaginas - 1): ?>
+                    <span class="page-dots">...</span>
+                <?php endif; ?>
+                <a href="?pagina=<?= $totalPaginas ?>" class="page-link <?= $totalPaginas === (int)$paginaActual ? 'active' : '' ?>"><?= $totalPaginas ?></a>
             <?php endif; ?>
             
             <?php if ($paginaActual < $totalPaginas): ?>
-            <a href="?pagina=<?= $paginaActual + 1 ?>" class="page-link next">Siguiente</a>
+                <a href="?pagina=<?= $paginaActual + 1 ?>" class="page-link next">Siguiente</a>
             <?php endif; ?>
         </div>
         <?php endif; ?>
